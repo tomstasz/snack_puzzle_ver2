@@ -21,5 +21,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns, static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.IndexView.as_view(), name='index'),
+    path('ingredient_detail/<pk>', views.IngredientDetailView.as_view(), name='ingredient_detail')
 ] + staticfiles_urlpatterns() + \
   static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,44 @@
+{% extends 'snack_puzzle/base.html'%}
+
+{% block content %}
+{#    <div class="container">#}
+        <div class="row no-gutters">
+            <div class="col-md-8">
+                <ul id="category">
+                {% for category in categories %}
+                    <li class="cat-li">{{ category.get_name_display }}
+                    {% for ing in category.ingredient_set.all%}
+                    <ul class="ing-li">
+                            <li>
+                            {% load thumbnail %}
+                                <a href="{{ ing.get_absolute_url }}"><img src="{{ing.path|thumbnail_url:'thumb' }}" class="img-thumbnail"></a>
+                            {{ ing.name }}
+                            </li>
+                    </ul>
+                    </li>
+
+                    {% empty %}
+                        <p>brak składników</p>
+                    {% endfor %}
+
+                {% endfor %}
+                </ul>
+            </div>
+
+            <div class="col-md-4">
+                {% for ingredient in ingredients %}
+                    <div class="media">
+                        <a href="{% url 'ingredient_detail' pk=ingredient.id %}"><img src="{{ingredient.path|thumbnail_url:'thumb' }}" class="img-thumbnail"></a>
+                        <div class="media-body">
+                            {{ ingredient.name }}
+                        </div>
+                    </div>
+{#                    {% load thumbnail %}#}
+{#                    <a href="{% url 'ingredient_detail' pk=ingredient.id %}"><img src="{{ingredient.path|thumbnail_url:'thumb' }}"></a>#}
+{#                    {{ ingredient.name }}#}
+
+                {% endfor %}
+            </div>
+        </div>
+{#    </div>#}
+{% endblock %}

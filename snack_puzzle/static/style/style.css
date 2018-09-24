@@ -1,0 +1,15 @@
+
+
+.description {
+    display: block;
+    width: 800px;
+    height: 200px;
+}
+/*
+display: none/block najlepsza opcja
+
+ */
+.hidden {
+    display: none;
+}
+
