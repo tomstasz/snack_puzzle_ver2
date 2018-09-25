@@ -17,6 +17,7 @@ class IndexView(View):
         ingredients = Ingredient.objects.filter(category=1)
         ctx = {
             'categories': all_categories,
+            'slug': 'cat_',
             'ingredients': ingredients
         }
         return TemplateResponse(request, 'snack_puzzle/index.html', ctx)
