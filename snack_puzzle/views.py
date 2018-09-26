@@ -22,6 +22,11 @@ class IndexView(View):
         }
         return TemplateResponse(request, 'snack_puzzle/index.html', ctx)
 
+    def post(self, request):
+        if request.is_ajax():
+            pass
+
+
 
 class IngredientDetailView(View):
 

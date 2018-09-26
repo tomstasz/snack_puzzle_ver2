@@ -19,9 +19,10 @@
                                 <a href="{{ ing.get_absolute_url }}"><img src="{{ing.path|thumbnail_url:'thumb' }}" class="rounded-circle"></a>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="{{ ing.id }}" value="">
+                                <input class="form-check-input" type="checkbox" id="{{ ing.id }}" value="" data-name="{{ ing.name }}">
                                 <label class="form-check-label" for="{{ ing.id }}">{{ ing.name }}</label>
                             </div>
+                            <div></div>
                             </li>
                         </ul>
 {#                    <ul>#}
