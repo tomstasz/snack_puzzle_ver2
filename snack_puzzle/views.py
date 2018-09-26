@@ -27,7 +27,6 @@ class IndexView(View):
             pass
 
 
-
 class IngredientDetailView(View):
 
     def get(self, request, pk):

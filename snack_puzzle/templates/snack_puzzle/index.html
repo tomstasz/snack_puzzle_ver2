@@ -2,16 +2,32 @@
 
 {% block content %}
 {#    <div class="container">#}
-        <div class="row no-gutters">
+    <div class="container">
+        <div class="col-md-12">
+                <div class="alert alert-link">
+                <h1 style="color: darkslateblue; font-weight: bold">Snack puzzle</h1>
+                <h5 style="color: crimson">Dish, as you wish!</h5>
+                <hr>
+                <p>Wybież składniki, którymi aktualnie dysponujesz i sprawdź, jakie dania możesz z nich przygotować.</p>
+            </div>
+        </div>
+    </div>
+<h1>Kategorie składników</h1>
+    <div class="col-md-6 text-right">
+            <button class="btn btn-primary" type="button" id="check-btn">Usuń zaznaczenia</button>
+            <button class="btn btn-primary" type="button" id="hide-btn">Zamknij wszystkie zakładki</button>
+    </div>
+        <div class="row">
             <div class="col-md-6">
                 <ul id="category_list">
                 {% for category in categories %}
                     <a data-id="{{ category.id}}"
+                       aria-expanded="false"
                        class="btn btn-info btn-block"
                        type="button"
                        data-toggle="collapse"
                        aria-controls="{{ slug }}{{ category.id }}" href="#{{ slug}}{{category.id }}">{{ category.get_name_display }}</a>
-                    <div class="collapse" id="{{ slug }}{{ category.id }}">
+                    <div class="collapse ing-div" id="{{ slug }}{{ category.id }}">
                     {% for ing in category.ingredient_set.all%}
                         <ul>
                             <li style="padding: 10px; list-style-type: square">
