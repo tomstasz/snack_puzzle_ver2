@@ -28,7 +28,7 @@
                        data-toggle="collapse"
                        aria-controls="{{ slug }}{{ category.id }}" href="#{{ slug}}{{category.id }}">{{ category.get_name_display }}</a>
                     <div class="collapse ing-div" id="{{ slug }}{{ category.id }}">
-                    {% for ing in category.ingredient_set.all%}
+                    {% for ing in category.ingredient_set.all %}
                         <ul>
                             <li style="padding: 10px; list-style-type: square">
                                 {% load thumbnail %}
@@ -41,13 +41,6 @@
                             <div></div>
                             </li>
                         </ul>
-{#                    <ul>#}
-{#                        <li style="padding: 10px; list-style-type: square">#}
-{#                        {% load thumbnail %}#}
-{#                            <a href="{{ ing.get_absolute_url }}"><img src="{{ing.path|thumbnail_url:'thumb' }}" class="rounded-circle border-0"></a>#}
-{#                        <span style="color: black">{{ ing.name }}</span>#}
-{#                        </li>#}
-{#                    </ul>#}
                     {% empty %}
                         <p>brak składników</p>
                     {% endfor %}
@@ -57,19 +50,25 @@
             </div>
 
             <div class="col-md-6">
-                {% for ingredient in ingredients %}
-                    <div class="media">
-                        <a href="{% url 'ingredient_detail' pk=ingredient.id %}"><img src="{{ingredient.path|thumbnail_url:'thumb' }}" class="img-thumbnail"></a>
-                        <div class="media-body">
-                            {{ ingredient.name }}
-                        </div>
+                <div class="card container-fluid" style="width: 25rem">
+                    <div class="card-body">
+                        <h3 class="card-title">{{ recipe.name }}</h3>
+                    <h5 class="card-subtitle text-muted">{{ recipe.time }} min.</h5>
+                        <hr>
+                        <p class="card-text">{{ recipe.description }}</p>
+                        <ul class="list-group list-group-flush">
+                            {% for ingredient in recipe.ingredient.all %}
+                                <li class="list-group-item">{{ ingredient.name }}</li>
+                            {% empty %}
+                                <p>brak składników</p>
+                            {% endfor %}
+                        </ul>
+                    <div class="card-body">
+                        <a href="{{ recipe.url }}" class="card-link">Zobacz przepis</a>
                     </div>
-{#                    {% load thumbnail %}#}
-{#                    <a href="{% url 'ingredient_detail' pk=ingredient.id %}"><img src="{{ingredient.path|thumbnail_url:'thumb' }}"></a>#}
-{#                    {{ ingredient.name }}#}
+                    </div>
 
-                {% endfor %}
+                </div>
             </div>
         </div>
-{#    </div>#}
 {% endblock %}

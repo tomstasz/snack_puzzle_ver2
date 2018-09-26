@@ -20,6 +20,11 @@ class IndexView(View):
             'slug': 'cat_',
             'ingredients': ingredients
         }
+        recipe = Recipe.objects.get(id=1)
+
+        ctx.update({
+            'recipe': recipe
+        })
         return TemplateResponse(request, 'snack_puzzle/index.html', ctx)
 
     def post(self, request):
@@ -31,6 +36,8 @@ class IngredientDetailView(View):
 
     def get(self, request, pk):
         ingredient = Ingredient.objects.get(id=pk)
-        ctx = {'ingredient': ingredient}
+        recipes = ingredient.ingredientrecipe_set.all()
+        ctx = {'ingredient': ingredient,
+               'recipes': recipes}
 
         return TemplateResponse(request, 'snack_puzzle/ingredient_detail.html', ctx)
