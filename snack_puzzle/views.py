@@ -6,7 +6,6 @@ from django.views.generic import CreateView, DeleteView, UpdateView
 from django.contrib.auth import login, authenticate, logout
 from django.urls import reverse_lazy
 from .models import Category, Ingredient, Recipe, Meal, IngredientRecipe
-
 # Create your views here.
 
 
@@ -28,8 +27,12 @@ class IndexView(View):
         return TemplateResponse(request, 'snack_puzzle/index.html', ctx)
 
     def post(self, request):
-        if request.is_ajax():
-            pass
+        ctx = {'ing_sent': "empty"}
+        if 'sent_ingredients' in request.POST:
+            ingredients = request.POST.get('sent_ingredients')
+            ctx = {'ing_sent': ingredients}
+            return TemplateResponse(request, 'snack_puzzle/index.html', ctx)
+        return TemplateResponse(request, 'snack_puzzle/index.html', ctx)
 
 
 class IngredientDetailView(View):

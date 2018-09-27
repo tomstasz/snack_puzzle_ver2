@@ -6,6 +6,7 @@ $(function() {
     var $ingredients = [];
     var $check_btn = $('#check-btn');
     var $hide_btn = $('#hide-btn');
+    var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
 
     function remove_ingredient(array, ingredient) {
         var index = array.indexOf(ingredient);
@@ -31,6 +32,16 @@ $(function() {
             if($(element).prop('checked')) {
                 $ingredients.push($(element).data('name'));
                 console.log($ingredients);
+                $.ajax({
+                    url: 'http://127.0.0.1:8000',
+                    method:'POST',
+                    data: {'sent_ingredients': $ingredients, csrfmiddlewaretoken: csrftoken}
+                }).done(function (response) {
+                    console.log(' success ingredients sent')
+                }).fail(function () {
+                    console.log('failure ingredients sent')
+                });
+
             } else if($(element).prop('checked', false)) {
                 remove_ingredient($ingredients, $(element).data('name'));
 

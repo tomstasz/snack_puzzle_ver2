@@ -7,6 +7,8 @@
     <ul>
     {% for recipe_data in recipes %}
         <li style="list-style-type: square">{{ recipe_data.recipe.name }}</li>
+    {% empty %}
+        <p>Brak przepisów</p>
     {% endfor %}
     </ul>
 
