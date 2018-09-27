@@ -33,7 +33,7 @@ $(function() {
                 $ingredients.push($(element).data('name'));
                 console.log($ingredients);
                 $.ajax({
-                    url: 'http://127.0.0.1:8000',
+                    url: 'http://127.0.0.1:8000/try_ajax',
                     method:'POST',
                     data: {'sent_ingredients': $ingredients, csrfmiddlewaretoken: csrftoken}
                 }).done(function (response) {

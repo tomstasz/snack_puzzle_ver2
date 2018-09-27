@@ -44,3 +44,13 @@ class IngredientDetailView(View):
                'recipes': recipes}
 
         return TemplateResponse(request, 'snack_puzzle/ingredient_detail.html', ctx)
+
+
+class IngredientCheck(View):
+    def post(self, request):
+        ctx = {'ing_sent': "empty"}
+        if 'sent_ingredients' in request.POST:
+            ingredients = request.POST.get('sent_ingredients')
+            ctx = {'ing_sent': ingredients}
+            return TemplateResponse(request, 'snack_puzzle/try_ajax.html', ctx)
+        return TemplateResponse(request, 'snack_puzzle/try_ajax.html', ctx)
