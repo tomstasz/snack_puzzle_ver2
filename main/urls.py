@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.IndexView.as_view(), name='index'),
     path('ingredient_detail/<pk>', views.IngredientDetailView.as_view(), name='ingredient_detail'),
-    path('try_ajax', views.IngredientCheck.as_view(), name='ing-check'),
+    path('amount', views.IngredientRecipeListView.as_view(), name='amount-list'),
+    path('amount/<int:pk>', views.IngredientRecipeDetailView.as_view(), name='amount-detail'),
 ] + staticfiles_urlpatterns() + \
   static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -42,6 +42,9 @@ class Ingredient(models.Model):
     path = models.ImageField(upload_to='ingredient_photo', verbose_name='Zdjęcie')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Kategoria')
 
+    class Meta:
+        ordering=['name']
+
     def __str__(self):
         return self.name
 
