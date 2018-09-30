@@ -23,12 +23,23 @@ class TypeSerializer(serializers.ModelSerializer):
         fields = ['id', 'type', 'ingredient']
 
 
+class IngredientRecipeSerializer(serializers.ModelSerializer):
+
+    ingredient = IngredientSerializer(read_only=True)
+    # recipe = RecipeSerializer(read_only=True)
+
+    class Meta:
+        model = IngredientRecipe
+        fields = ['id', 'ingredient', 'amount']
+
+
 class RecipeSerializer(serializers.ModelSerializer):
-    ingredient = IngredientSerializer(many=True, read_only=True)
+    # ingredient = IngredientSerializer(many=True, read_only=True)
+    ingredient_recipe = IngredientRecipeSerializer(source='ingredientrecipe_set', many=True, read_only=True)
 
     class Meta:
         model = Recipe
-        fields = ['id', 'name', 'description', 'time', 'path', 'ingredient', 'user']
+        fields = ['id', 'name', 'description', 'time', 'path', 'ingredient_recipe', 'user']
 
 
 class MealSerializer(serializers.ModelSerializer):
@@ -39,13 +50,4 @@ class MealSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'recipe']
 
 
-class IngredientRecipeSerializer(serializers.ModelSerializer):
-    # ingredient = serializers.SlugRelatedField(slug_field='name', queryset=Ingredient.objects.all())
-    # recipe = serializers.SlugRelatedField(slug_field='name', queryset=Recipe.objects.all())
 
-    ingredient = IngredientSerializer(read_only=True)
-    recipe = RecipeSerializer(read_only=True)
-
-    class Meta:
-        model = IngredientRecipe
-        fields = ['id', 'ingredient', 'recipe', 'amount']

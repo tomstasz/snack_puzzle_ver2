@@ -11,3 +11,13 @@
     display: none;
 }
 
+#head {
+    height: 200px;
+
+}
+
+#scroll_area {
+    position: relative;
+    height: 25rem !important;
+    overflow-y: scroll;
+}

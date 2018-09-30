@@ -1,7 +1,6 @@
 {% extends 'snack_puzzle/base.html'%}
 
 {% block content %}
-{#    <div class="container">#}
     <div class="container">
         <div class="col-md-12">
                 <div class="alert alert-link">
@@ -49,12 +48,87 @@
                     {% endfor %}
                     </ul>
                     </div>
-                     </div>
+                    </div>
                 {% endfor %}
                 </ul>
             </div>
 
+
             <div class="col-md-6">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <nav id="myScrollspy">
+                                <ul id="recipe_nav">
+                                    <li><a href="#{{ recipe.id }}">{{ recipe.name }}</a></li>
+                                    <li><a href="#section2">Section 2</a></li>
+                                    <li><a href="#section3">Section 3</a></li>
+                                    <li class="dropdown">
+                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Section 4 <span class="caret"></span></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#section41">Section 4-1</a></li>
+                                            <li><a href="#section42">Section 4-2</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </nav>
+
+                        </div>
+
+                        <div class="col-md-9">
+
+                            <div id="scroll_area" data-spy="scroll" data-target="#myScrollspy" data-offset="0">
+                                <div id="{{ recipe.id }}" class="card container-fluid" style="width: 25rem">
+                                <div class="card-body">
+                                    <h3 class="card-title">{{ recipe.name }}</h3>
+                                    <h5 class="card-subtitle text-muted">{{ recipe.time }} min.</h5>
+                                    <hr>
+                                    <p class="card-text">{{ recipe.description }}</p>
+                                         <ul class="list-group list-group-flush">
+                                            {% for ingredient in recipe.ingredient.all %}
+                                                <li class="list-group-item">{{ ingredient.name }}</li>
+                                            {% empty %}
+                                                <p>brak składników</p>
+                                            {% endfor %}
+                                         </ul>
+                                <div class="card-body">
+                                    <a href="{{ recipe.url }}" class="card-link">Zobacz przepis</a>
+                                </div>
+                                </div>
+
+                            </div>
+                            </div>
+
+
+
+
+                                <div id="section2">
+                                    <h1>Section 2</h1>
+                                            <p>Try to scroll this section and look at the navigation list while scrolling!</p>
+                                </div>
+                                <div id="section3">
+                                    <h1>Section 3</h1>
+                                            <p>Try to scroll this section and look at the navigation list while scrolling!</p>
+                                </div>
+                                <div id="section41">
+                                    <h1>Section 4-1</h1>
+                                    <p>Try to scroll this section and look at the navigation list while scrolling!</p>
+                                 </div>
+                                <div id="section42">
+                                    <h1>Section 4-2</h1>
+                                    <p>Try to scroll this section and look at the navigation list while scrolling!</p>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+{% endblock %}
+
                 <div class="card container-fluid" style="width: 25rem">
                     <div class="card-body">
                         <h3 class="card-title">{{ recipe.name }}</h3>
@@ -70,16 +144,8 @@
                         </ul>
                     <div class="card-body">
                         <a href="{{ recipe.url }}" class="card-link">Zobacz przepis</a>
-
-                         {% for i in ing_sent %}
-                            <p>i</p>
-                        {% endfor %}
-
-
                     </div>
                     </div>
 
                 </div>
             </div>
-        </div>
-{% endblock %}

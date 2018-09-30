@@ -44,7 +44,34 @@ $(function() {
                 }).done(function (data) {
                     console.log(' success ingredients sent');
                     console.log(data);
-                    console.log(JSON.parse(data))
+                    console.log(JSON.parse(data));
+                    data = JSON.parse(data);
+                    var $recipe_nav = $('#recipe_nav');
+                    var $scroll_area = $('#scroll_area');
+                    for(var i = 0; i < data.length; i++) {
+                        if (data[i].length === 0) {
+                            console.log("Nie ma takiego przepisu");
+                        } else {
+                            console.log(data[i]);
+                            var $new_card_container = $("<div id='" + data[i].id + "' class='card container-fluid'>");
+                            var $new_card_body = $("<div class=card-body>");
+                            var $new_card_title = $("<h3 class='card-title'>" + data[i].name + "</h3>");
+                            var $new_card_subtitle = $("<h5 class='card-subtitle text-muted'>" + data[i].time + "</h5>");
+                            var $new_card_text = $("<p>" + data[i].description + "</p>");
+                            var $new_ingredient_list = $("<ul class='list-group list-group-flush'>");
+
+                            $recipe_nav.append($("<li><a href='#"+ data[i].id +"'>" + data[i].name + "</a></li>"));
+                            $scroll_area.append($new_card_container).
+                            append($new_card_body).
+                            append($new_card_title).
+                            append($new_card_subtitle).
+                            append($new_card_text).append($new_ingredient_list);
+                            for(var j= 0; j < data[i].ingredient_recipe.length; j++) {
+                                $new_ingredient_list.append($("<li class='list-group-item'>" + data[i].ingredient_recipe[j].name + "</li>"))
+                            }
+                        }
+                    }
+
                 }).fail(function () {
                     console.log('failure ingredients sent')
                 });
