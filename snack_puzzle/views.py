@@ -27,9 +27,11 @@ class IndexView(View):
             'ingredients': ingredients
         }
         recipe = Recipe.objects.get(id=1)
+        ingredients = recipe.ingredientrecipe_set.all()
 
         ctx.update({
-            'recipe': recipe
+            'recipe': recipe,
+            'ingredients': ingredients
         })
 
         return TemplateResponse(request, 'snack_puzzle/index.html', ctx)
