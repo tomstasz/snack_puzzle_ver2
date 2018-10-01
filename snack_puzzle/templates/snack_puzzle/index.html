@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="container">
-        <div class="col-md-12">
+        <div class="col-sm-12">
                 <div class="alert alert-link">
                 <h1 style="color: darkslateblue; font-weight: bold">Snack puzzle</h1>
                 <h5 style="color: crimson">Dish, as you wish!</h5>
@@ -12,12 +12,12 @@
         </div>
     </div>
 <h1>Kategorie składników</h1>
-    <div class="col-md-6 text-right">
+    <div class="col-sm-6 text-right">
             <button class="btn btn-primary" type="button" id="check-btn">Usuń zaznaczenia</button>
             <button class="btn btn-primary" type="button" id="hide-btn">Zamknij wszystkie zakładki</button>
     </div>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-sm-6">
                 <ul id="category_list">
                 {% for category in categories %}
                     <a data-id="{{ category.id}}"
@@ -54,13 +54,13 @@
             </div>
 
 
-            <div class="col-md-6">
+            <div class="col-sm-6">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-3">
-                            <nav id="myScrollspy">
+                        <div class="col-sm-3">
+                            <nav id="myscrollspy">
                                 <ul id="recipe_nav">
-                                    <li><a href="#{{ recipe.id }}">{{ recipe.name }}</a></li>
+                                    <li><a href="#recipe_{{ recipe.id }}">{{ recipe.name }}</a></li>
                                     <li><a href="#section2">Section 2</a></li>
                                     <li><a href="#section3">Section 3</a></li>
                                     <li class="dropdown">
@@ -75,32 +75,28 @@
 
                         </div>
 
-                        <div class="col-md-9">
+                        <div class="col-sm-9">
 
-                            <div id="scroll_area" data-spy="scroll" data-target="#myScrollspy" data-offset="0">
-                            <div id="{{ recipe.id }}" class="card container-fluid mb-4" style="width: 25rem">
-                                <div class="card-body">
-                                    <h3 class="card-title">{{ recipe.name }}</h3>
-                                    <h5 class="card-subtitle text-muted pb-3">{{ recipe.time }} min.</h5>
-                                    <p class="card-text">{{ recipe.description }}</p>
-                                         <ul class="list-group list-group-flush">
-                                             {% for ingredient_data in ingredients %}
-                                                 <li class="list-group-item">{{ ingredient_data.ingredient.name }}
-                                                     <span class="float-right">{{ ingredient_data.amount }}</span></li>
-                                             {% empty %}
-                                                 <p>brak składników</p>
-                                             {% endfor %}
-                                         </ul>
-                                <div class="card-body">
-                                    <a href="{{ recipe.url }}" class="card-link">Zobacz przepis</a>
+                            <div id="scroll_area" data-spy="scroll" data-target="#myscrollspy" data-offset="0">
+                                <div id="recipe_{{ recipe.id }}" class="card container-fluid mb-4" style="width: 25rem">
+                                    <div class="card-body">
+                                        <h3 class="card-title">{{ recipe.name }}</h3>
+                                        <h5 class="card-subtitle text-muted pb-3">{{ recipe.time }} min.</h5>
+                                        <p class="card-text">{{ recipe.description }}</p>
+                                             <ul class="list-group list-group-flush">
+                                                 {% for ingredient_data in ingredients %}
+                                                     <li class="list-group-item">{{ ingredient_data.ingredient.name }}
+                                                         <span class="float-right">{{ ingredient_data.amount }}</span></li>
+                                                 {% empty %}
+                                                     <p>brak składników</p>
+                                                 {% endfor %}
+                                             </ul>
+                                    <div class="card-body">
+                                        <a href="{{ recipe.url }}" class="card-link">Zobacz przepis</a>
+                                    </div>
+                                    </div>
+
                                 </div>
-                                </div>
-
-                            </div>
-                            </div>
-
-
-
 
                                 <div id="section2">
                                     <h1>Section 2</h1>
@@ -120,6 +116,13 @@
                                 </div>
 
                             </div>
+
+
+
+
+
+
+                            </div>
                         </div>
 
                     </div>
@@ -129,23 +132,4 @@
             </div>
 {% endblock %}
 
-                <div class="card container-fluid" style="width: 25rem">
-                    <div class="card-body">
-                        <h3 class="card-title">{{ recipe.name }}</h3>
-                    <h5 class="card-subtitle text-muted">{{ recipe.time }} min.</h5>
-                        <hr>
-                        <p class="card-text">{{ recipe.description }}</p>
-                        <ul class="list-group list-group-flush">
-                            {% for ingredient in recipe.ingredient.all %}
-                                <li class="list-group-item">{{ ingredient.name }}</li>
-                            {% empty %}
-                                <p>brak składników</p>
-                            {% endfor %}
-                        </ul>
-                    <div class="card-body">
-                        <a href="{{ recipe.url }}" class="card-link">Zobacz przepis</a>
-                    </div>
-                    </div>
 
-                </div>
-            </div>

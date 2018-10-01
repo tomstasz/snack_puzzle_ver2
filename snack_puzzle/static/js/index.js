@@ -9,7 +9,6 @@ $(function() {
     var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
     var $recipe_nav = $('#recipe_nav');
     var $scroll_area = $('#scroll_area');
-    var $card_container = $('.card-container');
 
     function remove_ingredient(array, ingredient) {
         var index = array.indexOf(ingredient);
@@ -55,24 +54,15 @@ $(function() {
                     console.log(data);
                     console.log(JSON.parse(data));
                     data = JSON.parse(data);
-                    // data.some(function (element, index) {
-                    //
-                    // });
-
 
                     for(var i = 0; i < data.length; i++) {
-                        $card_container.each(function (index, element) {
-                            if(element.attr('id') === data[i].id) {
-                                element.remove()
-                            }
-                        });
 
                         if (data[i].length === 0) {
                             console.log("Nie ma takiego przepisu");
 
                         } else {
                             console.log(data[i]);
-                            var $new_card_container = $("<div id='" + data[i].id +
+                            var $new_card_container = $("<div id='recipe_" + data[i].id +
                                 "' class='card container-fluid mb-4' style='width: 25rem'>");
                             var $new_card_body = $("<div class='card-body'>");
                             var $new_card_title = $("<h3 class='card-title'>" + data[i].name + "</h3>");
@@ -81,7 +71,7 @@ $(function() {
                             var $new_card_text = $("<p class='card-text'>" + data[i].description + "</p>");
                             var $new_ingredient_list = $("<ul class='list-group list-group-flush'>");
 
-                            $recipe_nav.append($("<li><a href='#"+ data[i].id +"'>" + data[i].name + "</a></li>"));
+                            $recipe_nav.append($("<li><a href='#recipe_"+ data[i].id +"'>" + data[i].name + "</a></li>"));
                             $scroll_area.append($new_card_container);
                             $new_card_container.append($new_card_body);
                             $new_card_body.append($new_card_title).
