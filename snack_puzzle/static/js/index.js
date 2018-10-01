@@ -7,6 +7,9 @@ $(function() {
     var $check_btn = $('#check-btn');
     var $hide_btn = $('#hide-btn');
     var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+    var $recipe_nav = $('#recipe_nav');
+    var $scroll_area = $('#scroll_area');
+    var $card_container = $('.card-container');
 
     function remove_ingredient(array, ingredient) {
         var index = array.indexOf(ingredient);
@@ -20,6 +23,8 @@ $(function() {
     $check_btn.on('click', function (event) {
         $checkboxes.prop('checked', false);
         $ingredients = [];
+        $recipe_nav.empty();
+        $scroll_area.empty();
         console.log($ingredients);
     });
 
@@ -32,8 +37,12 @@ $(function() {
             if($(element).prop('checked')) {
                 $ingredients.push($(element).data('name'));
                 console.log($ingredients);
+                $recipe_nav.empty();
+                $scroll_area.empty();
             } else if($(element).prop('checked', false)) {
                 remove_ingredient($ingredients, $(element).data('name'));
+                $recipe_nav.empty();
+                $scroll_area.empty();
 
                 console.log($ingredients);
             }
@@ -46,15 +55,25 @@ $(function() {
                     console.log(data);
                     console.log(JSON.parse(data));
                     data = JSON.parse(data);
-                    var $recipe_nav = $('#recipe_nav');
-                    var $scroll_area = $('#scroll_area');
+                    // data.some(function (element, index) {
+                    //
+                    // });
+
+
                     for(var i = 0; i < data.length; i++) {
+                        $card_container.each(function (index, element) {
+                            if(element.attr('id') === data[i].id) {
+                                element.remove()
+                            }
+                        });
+
                         if (data[i].length === 0) {
                             console.log("Nie ma takiego przepisu");
+
                         } else {
                             console.log(data[i]);
                             var $new_card_container = $("<div id='" + data[i].id +
-                                "' class='card container-fluid' style='width: 25rem'>");
+                                "' class='card container-fluid mb-4' style='width: 25rem'>");
                             var $new_card_body = $("<div class='card-body'>");
                             var $new_card_title = $("<h3 class='card-title'>" + data[i].name + "</h3>");
                             var $new_card_subtitle = $("<h5 class='card-subtitle text-muted pb-3'>" + data[i].time
