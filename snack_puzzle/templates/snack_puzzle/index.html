@@ -11,11 +11,12 @@
             </div>
         </div>
     </div>
-<h1>Kategorie składników</h1>
+    <h1>Kategorie składników</h1>
     <div class="col-sm-6 text-right">
             <button class="btn btn-primary" type="button" id="check-btn">Usuń zaznaczenia</button>
             <button class="btn btn-primary" type="button" id="hide-btn">Zamknij wszystkie zakładki</button>
     </div>
+
         <div class="row">
             <div class="col-sm-6">
                 <ul id="category_list">
@@ -27,26 +28,40 @@
                        data-toggle="collapse"
                        aria-controls="{{ slug }}{{ category.id }}" href="#{{ slug}}{{category.id }}">{{ category.get_name_display }}</a>
                     <div class="collapse ing-div" id="{{ slug }}{{ category.id }}">
-                    <div class="col-md-6">
+                    <div class="col-sm-6">
+                    <div class="container">
                     <ul>
                     {% for ing in category.ingredient_set.all %}
 
-                                <li style="padding: 10px; list-style-type: square">
-                                    {% load thumbnail %}
-                                    <a href="{{ ing.get_absolute_url }}"><img src="{{ing.path|thumbnail_url:'thumb' }}" class="rounded-circle"></a>
 
-                                <div class="form-check form-check-inline">
+                                <li style="padding: 10px; list-style-type: square">
+                                <div class="form-check form-check-inline align-items-center">
+
+                                    {% load thumbnail %}
+{#                                    <label for="link_{{ ing.id }}">{{ ing.name }}</label>#}
+                                    <label>{{ ing.name }}
+                                    <a id="link_{{ ing.id }}" href="{{ ing.get_absolute_url }}"><img src="{{ing.path|thumbnail_url:'thumb' }}" class="rounded-circle mr-5"></a>
+                                    </label>
+{#                                    <label class="form-check-label" for="link_{{ ing.id }}">{{ ing.name }}</label>#}
+
+
                                     {% csrf_token %}
+
+
+{#                                    <label class="form-check-label" for="{{ ing.id }}">{{ ing.name }}</label>#}
+                                    <input type="number" id="num_{{ ing.id }}" class="form-control form-control-sm ml-5 num" value="0">
+{#                                    <label for="num_{{ ing.id }}">ilość</label>#}
                                     <input class="form-check-input" type="checkbox" id="{{ ing.id }}" value="" data-name="{{ ing.name }}">
-                                    <label class="form-check-label" for="{{ ing.id }}">{{ ing.name }}</label>
+
                                 </div>
-                                <div></div>
                                 </li>
+
 
                     {% empty %}
                         <p>brak składników</p>
                     {% endfor %}
                     </ul>
+                    </div>
                     </div>
                     </div>
                 {% endfor %}
@@ -122,14 +137,15 @@
 
 
 
-                            </div>
                         </div>
-
                     </div>
 
-
                 </div>
+
+
             </div>
+        </div>
+
 {% endblock %}
 
 
