@@ -12,22 +12,21 @@ User = get_user_model()
 
 class Category(models.Model):
     CATEGORIES = (
-        (-1, 'brak'),
-        (0, 'Pieczywo'),
-        (1, 'Nabiał i jaja'),
-        (2, 'Mięso i ryby'),
-        (3, 'Sypkie'),
-        (4, 'Tłuszcze'),
-        (5, 'Owoce'),
-        (6, 'Warzywa'),
-        (7, 'Słodycze'),
-        (8, 'Dodatki'),
-        (9, 'Zioła i przyprawy'),
-        (10, 'Napoje'),
-        (11, 'Grzyby'),
+        ('Pie', 'Pieczywo'),
+        ('Nab', 'Nabiał i jaja'),
+        ('Mię', 'Mięso i ryby'),
+        ('Syp', 'Sypkie'),
+        ('Tłu', 'Tłuszcze'),
+        ('Owo', 'Owoce'),
+        ('Warz', 'Warzywa'),
+        ('Sło', 'Słodycze'),
+        ('Dod', 'Dodatki'),
+        ('Zio', 'Zioła i przyprawy'),
+        ('Nap', 'Napoje'),
+        ('Grz', 'Grzyby'),
 
     )
-    name = models.IntegerField(choices=CATEGORIES, default=-1, verbose_name="Kategoria")
+    name = models.CharField(choices=CATEGORIES, default='brak', max_length=100, verbose_name="Kategoria")
 
     class Meta:
         verbose_name_plural = 'categories'
@@ -43,7 +42,7 @@ class Ingredient(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Kategoria')
 
     class Meta:
-        ordering=['name']
+        ordering = ['name']
 
     def __str__(self):
         return self.name

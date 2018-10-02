@@ -35,7 +35,7 @@
                                     {% load thumbnail %}
                                     <a href="{{ ing.get_absolute_url }}"><img src="{{ing.path|thumbnail_url:'thumb' }}" class="rounded-circle"></a>
 
-                                <div class="form-check">
+                                <div class="form-check form-check-inline">
                                     {% csrf_token %}
                                     <input class="form-check-input" type="checkbox" id="{{ ing.id }}" value="" data-name="{{ ing.name }}">
                                     <label class="form-check-label" for="{{ ing.id }}">{{ ing.name }}</label>
