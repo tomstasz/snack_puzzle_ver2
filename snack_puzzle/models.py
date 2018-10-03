@@ -14,7 +14,7 @@ class Category(models.Model):
     CATEGORIES = (
         ('Pie', 'Pieczywo'),
         ('Nab', 'Nabiał i jaja'),
-        ('Mię', 'Mięso i ryby'),
+        ('Mię', 'Mięso'),
         ('Syp', 'Sypkie'),
         ('Tłu', 'Tłuszcze'),
         ('Owo', 'Owoce'),
@@ -24,6 +24,7 @@ class Category(models.Model):
         ('Zio', 'Zioła i przyprawy'),
         ('Nap', 'Napoje'),
         ('Grz', 'Grzyby'),
+        ('Ryby', 'Ryby'),
 
     )
     name = models.CharField(choices=CATEGORIES, default='brak', max_length=100, verbose_name="Kategoria")
@@ -49,18 +50,6 @@ class Ingredient(models.Model):
 
     def get_absolute_url(self):
         return reverse('ingredient_detail', kwargs={'pk': self.id})
-
-
-class Type(models.Model):
-    type = models.CharField(max_length=100, verbose_name="Rodzaj")
-    ingredient = models.ForeignKey(Ingredient,
-                                   on_delete=models.CASCADE,
-                                   verbose_name="Rodzaj składnika",
-                                   null=True,
-                                   blank=True)
-
-    def __str__(self):
-        return self.type
 
 
 class Recipe(models.Model):
@@ -95,6 +84,18 @@ class Meal(models.Model):
 
 
 class IngredientRecipe(models.Model):
+    MEASURES = (
+        ('gram', 'g'),
+        ('dekagram', 'dag'),
+        ('sztuka', 'szt.'),
+        ('szklanka', 'szklanka'),
+        ('łyżka', 'łyżka'),
+        ('łyżeczka', 'łyżeczka'),
+        ('szczypta', 'szczypta'),
+        ('pęczek', 'pęczek'),
+        ('opakowanie', 'opak.'),
+    )
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
-    amount = models.IntegerField()
+    amount = models.IntegerField(verbose_name="Ilość")
+    measure = models.CharField(choices=MEASURES, default='dag', max_length=32, verbose_name="Miara", null=True)

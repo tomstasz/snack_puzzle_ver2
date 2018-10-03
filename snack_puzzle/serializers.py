@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from snack_puzzle.models import Category, Ingredient, Recipe, Meal, IngredientRecipe, Type
+from snack_puzzle.models import Category, Ingredient, Recipe, Meal, IngredientRecipe
 
 
 class IngredientSerializer(serializers.ModelSerializer):
@@ -15,12 +15,6 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ['id', 'name', 'ingredients']
-
-
-class TypeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Type
-        fields = ['id', 'type', 'ingredient']
 
 
 class IngredientRecipeSerializer(serializers.ModelSerializer):

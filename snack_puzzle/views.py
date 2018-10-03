@@ -18,28 +18,49 @@ from .models import Category, Ingredient, Recipe, Meal, IngredientRecipe
 class IndexView(View):
 
     def get(self, request):
-        all_categories = Category.objects.order_by('name')
-        ingredients = Ingredient.objects.filter(category=1)
+        categories = Category.objects.order_by('name')
+        example_ingredients = Ingredient.objects.filter(category=1)
 
         ctx = {
-            'categories': all_categories,
             'slug': 'cat_',
-            'ingredients': ingredients
+            'example_ingredients': example_ingredients
         }
         recipe = Recipe.objects.get(id=1)
         ingredients = recipe.ingredientrecipe_set.all()
 
         ctx.update({
+            'categories': categories,
             'recipe': recipe,
             'ingredients': ingredients
         })
 
         return TemplateResponse(request, 'snack_puzzle/index.html', ctx)
 
+    # def post(self, request):
+    #     ctx = {'ing_sent': "empty"}
+    #     if 'sent_ingredients[]' in request.POST:
+    #         ingredients = request.POST.getlist('sent_ingredients[]')
+    #         res = Recipe.objects.filter(
+    #             ingredient__name__in=ingredients).exclude(
+    #             ingredient__in=Ingredient.objects.exclude(
+    #                 name__in=ingredients)).distinct('id')
+    #         serializer = RecipeSerializer(instance=res, many=True)
+    #
+    #         print(serializer.data)
+    #
+    #         return HttpResponse(json.dumps(serializer.data))
+    #     return TemplateResponse(request, 'snack_puzzle/index.html', ctx)
+
     def post(self, request):
         ctx = {'ing_sent': "empty"}
         if 'sent_ingredients[]' in request.POST:
-            ingredients = request.POST.getlist('sent_ingredients[]')
+            ingredients_received = request.POST.getlist('sent_ingredients[]')
+            ingredients_received = json.loads(ingredients_received)
+            ingredients = []
+            for dictionary in ingredients_received:
+                ingredients.append(dictionary['name'])
+            print(ingredients)
+
             res = Recipe.objects.filter(
                 ingredient__name__in=ingredients).exclude(
                 ingredient__in=Ingredient.objects.exclude(

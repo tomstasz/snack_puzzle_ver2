@@ -35,7 +35,15 @@ $(function() {
     $checkboxes.each(function(index, element) {
         $(element).on('change', function(event) {
             if($(element).prop('checked')) {
-                $ingredients.push($(element).data('name'));
+                var $ing_obj = {};
+                var $ing_name = $(element).data('name');
+                var $ing_amount = $(element).prev().prev().val();
+                var $ing_measure = $(element).prev().val();
+                $ing_obj.name = $ing_name;
+                $ing_obj.amount = $ing_amount;
+                $ing_obj.measure = $ing_measure;
+                console.log($ing_obj);
+                $ingredients.push($ing_obj);
                 console.log($ingredients);
                 $recipe_nav.empty();
                 $scroll_area.empty();
