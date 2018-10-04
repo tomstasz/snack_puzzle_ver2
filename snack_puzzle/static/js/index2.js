@@ -1,7 +1,7 @@
 
 
 $(function() {
-    var $checkboxes = $('.form-check-input');
+    var $checkboxes = $('.check');
     var $ingredient_tabs = $('.ing-div');
     var $ingredients = [];
     var $check_btn = $('#check-btn');
@@ -12,12 +12,19 @@ $(function() {
 
 
     function remove_ingredient(array, ingredient) {
-        var index = array.indexOf(ingredient);
-        if(index === -1)
-            return;
+        array.forEach(function(element, index) {
+            if (element.name === ingredient) {
+                array.splice(index, 1)
+            }
 
-        array.splice(index, 1);
-        remove_ingredient(array, ingredient)
+        });
+        var check = array.some(function(element) {
+            return element.name === ingredient;
+        });
+        if (check ) {
+            remove_ingredient(array, ingredient)
+        }
+
     }
 
     $check_btn.on('click', function (event) {
@@ -49,15 +56,17 @@ $(function() {
                 $scroll_area.empty();
             } else if($(element).prop('checked', false)) {
                 remove_ingredient($ingredients, $(element).data('name'));
+
                 $recipe_nav.empty();
                 $scroll_area.empty();
 
                 console.log($ingredients);
             }
+            var data = JSON.stringify({ingredients: $ingredients});
             $.ajax({
                     url: 'http://127.0.0.1:8000',
                     method:'POST',
-                    data: {sent_ingredients: $ingredients, csrfmiddlewaretoken: csrftoken}
+                    data: {data: data, csrfmiddlewaretoken: csrftoken},
                 }).done(function (data) {
                     console.log('success ingredients sent');
                     console.log(data);
@@ -92,7 +101,7 @@ $(function() {
                             for(var j= 0; j < $ing_in_recipe.length; j++) {
                                 var $new_li = $("<li class='list-group-item'>");
                                 var $new_span = $("<span class='float-right'>");
-                                $new_span.text($ing_in_recipe[j].amount);
+                                $new_span.text($ing_in_recipe[j].amount + ' ' + $ing_in_recipe[j].measure);
                                 $new_li.text($ing_in_recipe[j].ingredient.name);
                                 $new_li.append($new_span);
                                 $new_ingredient_list.append($new_li);

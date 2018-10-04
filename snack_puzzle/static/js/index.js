@@ -84,7 +84,7 @@ $(function() {
                             for(var j= 0; j < $ing_in_recipe.length; j++) {
                                 var $new_li = $("<li class='list-group-item'>");
                                 var $new_span = $("<span class='float-right'>");
-                                $new_span.text($ing_in_recipe[j].amount);
+                                $new_span.text($ing_in_recipe[j].amount + ' ' + $ing_in_recipe[j].measure);
                                 $new_li.text($ing_in_recipe[j].ingredient.name);
                                 $new_li.append($new_span);
                                 $new_ingredient_list.append($new_li);

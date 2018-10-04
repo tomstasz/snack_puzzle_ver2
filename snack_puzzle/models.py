@@ -85,17 +85,21 @@ class Meal(models.Model):
 
 class IngredientRecipe(models.Model):
     MEASURES = (
-        ('gram', 'g'),
-        ('dekagram', 'dag'),
-        ('sztuka', 'szt.'),
-        ('szklanka', 'szklanka'),
-        ('łyżka', 'łyżka'),
-        ('łyżeczka', 'łyżeczka'),
-        ('szczypta', 'szczypta'),
-        ('pęczek', 'pęczek'),
-        ('opakowanie', 'opak.'),
+        ('g', 'g'),
+        ('dag', 'dag'),
+        ('szt.', 'szt.'),
+        ('szklan.', 'szklan.'),
+        ('łyż.', 'łyż.'),
+        ('łyżecz.', 'łyżecz.'),
+        ('szczypt.', 'szczypt.'),
+        ('pęcz.', 'pęcz.'),
+        ('opak.', 'opak.'),
+        ('l', 'l'),
     )
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
-    amount = models.IntegerField(verbose_name="Ilość")
+    amount = models.FloatField(verbose_name="Ilość")
     measure = models.CharField(choices=MEASURES, default='dag', max_length=32, verbose_name="Miara", null=True)
+
+    def __str__(self):
+        return 'Przepis: {}, Składnik: {}'.format(self.recipe, self.ingredient)

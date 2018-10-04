@@ -15,6 +15,21 @@ from .models import Category, Ingredient, Recipe, Meal, IngredientRecipe
 # Create your views here.
 
 
+def compute_measure(amount, measure):
+    if measure == 'szklanka':
+        return amount
+    elif measure == 'łyżka':
+        return amount * 17
+    elif measure == 'łyzeczka':
+        return amount * 50
+    elif measure == 'litr':
+        return amount * 0.25
+
+
+def compare_ingredients(recipe, user_ing):
+    pass
+
+
 class IndexView(View):
 
     def get(self, request):
@@ -46,6 +61,11 @@ class IndexView(View):
     #                 name__in=ingredients)).distinct('id')
     #         serializer = RecipeSerializer(instance=res, many=True)
     #
+    #         for recipe in res:
+    #             print(recipe.time)
+    #             for recipe_data in recipe.ingredientrecipe_set.all():
+    #                 print(recipe_data.ingredient.name, recipe_data.measure)
+    #
     #         print(serializer.data)
     #
     #         return HttpResponse(json.dumps(serializer.data))
@@ -53,13 +73,16 @@ class IndexView(View):
 
     def post(self, request):
         ctx = {'ing_sent': "empty"}
-        if 'sent_ingredients[]' in request.POST:
-            ingredients_received = request.POST.getlist('sent_ingredients[]')
-            ingredients_received = json.loads(ingredients_received)
+        if 'data' in request.POST:
+            data = json.loads(request.POST['data'])
+            ingredients_data = data['ingredients']
             ingredients = []
-            for dictionary in ingredients_received:
-                ingredients.append(dictionary['name'])
-            print(ingredients)
+            print('-------')
+            for user_ingredients_dict in ingredients_data:
+                ingredients.append(user_ingredients_dict['name'])
+
+                print(user_ingredients_dict['name'], user_ingredients_dict['amount'], user_ingredients_dict['measure'])
+            print('-------')
 
             res = Recipe.objects.filter(
                 ingredient__name__in=ingredients).exclude(
@@ -67,9 +90,26 @@ class IndexView(View):
                     name__in=ingredients)).distinct('id')
             serializer = RecipeSerializer(instance=res, many=True)
 
+            cooking_flag = False
+            for recipe in res:
+                for recipe_data in recipe.ingredientrecipe_set.all():
+                    for user_ingredients_dict in ingredients_data:
+                        if recipe_data.ingredient.name in user_ingredients_dict.values():
+                            print("Sprawdzam: " + recipe_data.measure, user_ingredients_dict['measure'])
+                            if recipe_data.measure == user_ingredients_dict['measure']:
+                                if float(user_ingredients_dict['amount']) >= float(recipe_data.amount):
+                                    cooking_flag = True
+
+                print("Sukces, możesz ugotować " + recipe.name)
+
+
+
+                    # print(recipe_data.ingredient.name, recipe_data.amount, recipe_data.measure)
+
             print(serializer.data)
 
-            return HttpResponse(json.dumps(serializer.data))
+            if cooking_flag:
+                return HttpResponse(json.dumps(serializer.data))
         return TemplateResponse(request, 'snack_puzzle/index.html', ctx)
 
 
