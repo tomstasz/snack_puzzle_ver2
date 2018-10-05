@@ -86,6 +86,8 @@ class IndexView(View):
             recipe_true = []
             counter_dict = dict()
             ready_to_cook = []
+            measure_list = list()
+            amount_list = list()
 
             for recipe in res:
                 counter_dict[recipe] = 0
@@ -104,10 +106,13 @@ class IndexView(View):
                                 else:
                                     print("Wrong amount")
                                     print(recipe.name, recipe_data.ingredient.name)
+                                    amount_list.append(recipe.name)
                                     break
                             else:
                                 print("Wrong measure")
                                 print(recipe.name, recipe_data.ingredient.name)
+                                d = {recipe.name: recipe_data.ingredient.name}
+                                measure_list.append(recipe_data.ingredient.name)
                                 break
 
             if cooking_flag:
@@ -122,6 +127,8 @@ class IndexView(View):
                         ready_to_cook = remove_duplicates_in_list(ready_to_cook)
                         to_dump['ready'] = ready_to_cook
 
+            to_dump['measure'] = measure_list
+            to_dump['amount'] = amount_list
             print(serializer.data)
 
             # return HttpResponse(json.dumps(serializer.data))

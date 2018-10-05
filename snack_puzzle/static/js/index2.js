@@ -78,10 +78,17 @@ $(function() {
                     console.log(JSON.parse(data));
                     data = JSON.parse(data);
 
-                    console.log(data.ready);
-                    for(var k = 0; k < data.ready.length ; k++) {
-                        alert("Możesz przygotować " + data.ready[k]);
-                    }
+                    // console.log(data.measure);
+                    // for(var k = 0; k < data.measure.length ; k++) {
+                    //     if (data.measure[k].length === 0) {
+                    //         console.log("Nie ma takiego przepisu");
+                    //     } else {
+                    //         // alert("Możesz przygotować " + data.ready[k]);
+                    //         alert("Jesteś blisko, spróbuj innej miary dla " + data.measure[k])
+                    //
+                    //     }
+                    //
+                    // }
 
 
                     for(var i = 0; i < data.serial.length; i++) {
@@ -89,8 +96,17 @@ $(function() {
                         if (data.serial[i].length === 0) {
                             console.log("Nie ma takiego przepisu");
 
+                        } else if (data.measure.length > 0){
+                            for(var k = 0; k < data.measure.length ; k++) {
+                                 alert("Jesteś blisko, spróbuj innej miary dla " + data.measure[k])
+                            }
+
+                        } else if (data.amount.length > 0){
+                            for(var l = 0; l < data.amount.length ; l++) {
+                                 alert("Masz wymagane składniki, tylko trochę za mało, by zrobić " + data.amount[l])
+                            }
+
                         } else {
-                            // console.log(data.serial[i]);
                             var $new_card_container = $("<div id='recipe_" + data.serial[i].id +
                                 "' class='card container-fluid mb-4' style='width: 25rem'>");
                             var $new_card_body = $("<div class='card-body'>");
