@@ -78,31 +78,37 @@ $(function() {
                     console.log(JSON.parse(data));
                     data = JSON.parse(data);
 
-                    for(var i = 0; i < data.length; i++) {
+                    console.log(data.ready);
+                    for(var k = 0; k < data.ready.length ; k++) {
+                        alert("Możesz przygotować " + data.ready[k]);
+                    }
 
-                        if (data[i].length === 0) {
+
+                    for(var i = 0; i < data.serial.length; i++) {
+
+                        if (data.serial[i].length === 0) {
                             console.log("Nie ma takiego przepisu");
 
                         } else {
-                            console.log(data[i]);
-                            var $new_card_container = $("<div id='recipe_" + data[i].id +
+                            // console.log(data.serial[i]);
+                            var $new_card_container = $("<div id='recipe_" + data.serial[i].id +
                                 "' class='card container-fluid mb-4' style='width: 25rem'>");
                             var $new_card_body = $("<div class='card-body'>");
-                            var $new_card_title = $("<h3 class='card-title'>" + data[i].name + "</h3>");
-                            var $new_card_subtitle = $("<h5 class='card-subtitle text-muted pb-3'>" + data[i].time
+                            var $new_card_title = $("<h3 class='card-title'>" + data.serial[i].name + "</h3>");
+                            var $new_card_subtitle = $("<h5 class='card-subtitle text-muted pb-3'>" + data.serial[i].time
                                 + " min.</h5>");
-                            var $new_card_text = $("<p class='card-text'>" + data[i].description + "</p>");
+                            var $new_card_text = $("<p class='card-text'>" + data.serial[i].description + "</p>");
                             var $new_ingredient_list = $("<ul class='list-group list-group-flush'>");
 
-                            $recipe_nav.append($("<li><a class='nav_a' href='#recipe_"+ data[i].id +"'>" + data[i].name + "</a></li>"));
+                            $recipe_nav.append($("<li><a class='nav_a' href='#recipe_"+ data.serial[i].id +"'>" + data.serial[i].name + "</a></li>"));
                             $scroll_area.append($new_card_container);
                             $new_card_container.append($new_card_body);
                             $new_card_body.append($new_card_title).
                             append($new_card_subtitle).
                             append($new_card_text).
                             append($new_ingredient_list);
-                            console.log(data[i].ingredient_recipe);
-                            var $ing_in_recipe = data[i].ingredient_recipe;
+                            console.log(data.serial[i].ingredient_recipe);
+                            var $ing_in_recipe = data.serial[i].ingredient_recipe;
                             for(var j= 0; j < $ing_in_recipe.length; j++) {
                                 var $new_li = $("<li class='list-group-item'>");
                                 var $new_span = $("<span class='float-right'>");
@@ -113,7 +119,7 @@ $(function() {
 
                             }
                             var $new_card_body_link = $("<div class='card-body'>");
-                            var $new_link = $("<a href='" + data[i].url + "' class='card-link'>Zobacz przepis</a>");
+                            var $new_link = $("<a href='" + data.serial[i].url + "' class='card-link'>Zobacz przepis</a>");
                             $new_card_container.append($new_card_body_link);
                             $new_card_body_link.append($new_link);
                         }

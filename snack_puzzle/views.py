@@ -80,9 +80,12 @@ class IndexView(View):
                     name__in=ingredients)).distinct('id')
             serializer = RecipeSerializer(instance=res, many=True)
 
+            to_dump = {'serial': serializer.data}
+
             cooking_flag = False
             recipe_true = []
             counter_dict = dict()
+            ready_to_cook = []
 
             for recipe in res:
                 counter_dict[recipe] = 0
@@ -115,10 +118,14 @@ class IndexView(View):
                 for i in counter_dict:
                     if i.name in recipe_true and counter_dict[i] == len(i.ingredientrecipe_set.all()):
                         print("Sukces, możesz przygotować ", i.name)
+                        ready_to_cook.append(i.name)
+                        ready_to_cook = remove_duplicates_in_list(ready_to_cook)
+                        to_dump['ready'] = ready_to_cook
 
             print(serializer.data)
 
-            return HttpResponse(json.dumps(serializer.data))
+            # return HttpResponse(json.dumps(serializer.data))
+            return HttpResponse(json.dumps(to_dump))
         return TemplateResponse(request, 'snack_puzzle/index.html', ctx)
 
 
