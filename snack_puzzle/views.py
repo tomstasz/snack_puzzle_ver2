@@ -1,17 +1,9 @@
-from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
-from django.db.models import Count
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
 from django.template.response import TemplateResponse
 from django.views import View
-from django.views.generic import CreateView, DeleteView, UpdateView
-from django.contrib.auth import login, authenticate, logout
-from django.urls import reverse_lazy
 import json
-from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIView
-from snack_puzzle import serializers
-from snack_puzzle.serializers import IngredientSerializer, RecipeSerializer
-from .models import Category, Ingredient, Recipe, Meal, IngredientRecipe
+from snack_puzzle.serializers import RecipeSerializer
+from .models import Category, Ingredient, Recipe
 
 # Create your views here.
 
@@ -20,46 +12,22 @@ def remove_duplicates_in_list(l):
     return list(set(l))
 
 
+def set_to_dump_list(dictionary, to_dump_list, recipe, ingredient):
+    d = {'recipe_name': recipe, 'ingredient_name': ingredient}
+    dictionary.update(d)
+    to_dump_list.append(dictionary)
+    return to_dump_list
+
+
 class IndexView(View):
 
     def get(self, request):
         categories = Category.objects.order_by('name')
-        example_ingredients = Ingredient.objects.filter(category=1)
-
         ctx = {
             'slug': 'cat_',
-            'example_ingredients': example_ingredients
+            'categories': categories
         }
-        recipe = Recipe.objects.get(id=1)
-        ingredients = recipe.ingredientrecipe_set.all()
-
-        ctx.update({
-            'categories': categories,
-            'recipe': recipe,
-            'ingredients': ingredients
-        })
-
         return TemplateResponse(request, 'snack_puzzle/index.html', ctx)
-
-    # def post(self, request):
-    #     ctx = {'ing_sent': "empty"}
-    #     if 'sent_ingredients[]' in request.POST:
-    #         ingredients = request.POST.getlist('sent_ingredients[]')
-    #         res = Recipe.objects.filter(
-    #             ingredient__name__in=ingredients).exclude(
-    #             ingredient__in=Ingredient.objects.exclude(
-    #                 name__in=ingredients)).distinct('id')
-    #         serializer = RecipeSerializer(instance=res, many=True)
-    #
-    #         for recipe in res:
-    #             print(recipe.time)
-    #             for recipe_data in recipe.ingredientrecipe_set.all():
-    #                 print(recipe_data.ingredient.name, recipe_data.measure)
-    #
-    #         print(serializer.data)
-    #
-    #         return HttpResponse(json.dumps(serializer.data))
-    #     return TemplateResponse(request, 'snack_puzzle/index.html', ctx)
 
     def post(self, request):
         ctx = {'ing_sent': "empty"}
@@ -86,7 +54,9 @@ class IndexView(View):
             recipe_true = []
             counter_dict = dict()
             ready_to_cook = []
+            measure_dict = dict()
             measure_list = list()
+            amount_dict = dict()
             amount_list = list()
 
             for recipe in res:
@@ -104,15 +74,10 @@ class IndexView(View):
                                     counter_dict[recipe] += 1
 
                                 else:
-                                    print("Wrong amount")
-                                    print(recipe.name, recipe_data.ingredient.name)
-                                    amount_list.append(recipe.name)
+                                    set_to_dump_list(amount_dict, amount_list, recipe.name, recipe_data.ingredient.name)
                                     break
                             else:
-                                print("Wrong measure")
-                                print(recipe.name, recipe_data.ingredient.name)
-                                d = {recipe.name: recipe_data.ingredient.name}
-                                measure_list.append(recipe_data.ingredient.name)
+                                set_to_dump_list(measure_dict, measure_list, recipe.name, recipe_data.ingredient.name)
                                 break
 
             if cooking_flag:
@@ -131,7 +96,6 @@ class IndexView(View):
             to_dump['amount'] = amount_list
             print(serializer.data)
 
-            # return HttpResponse(json.dumps(serializer.data))
             return HttpResponse(json.dumps(to_dump))
         return TemplateResponse(request, 'snack_puzzle/index.html', ctx)
 

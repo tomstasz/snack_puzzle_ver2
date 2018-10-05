@@ -16,18 +16,6 @@
   </head>
   <body style="background-color: lightgrey">
   <header>
-{#    Dzisiaj jest: {{ date|date:'d.m.Y'}} <br>#}
-{##}
-{#    {% if request.user.is_authenticated %}#}
-{#        Witaj {{ request.user.username }} <a href="{% url 'logout' %}">Wyloguj</a>#}
-{#        <a href="{% url 'add_photo' %}">Dodaj zdjęcie</a>#}
-{#        <a href="{% url 'profile' %}">Mój profil</a>#}
-{#    {% else %}#}
-{#        <a href="{% url 'register' %}">Zarejestruj się</a>#}
-{#    {% endif %}#}
-
-
-
 </header>
 {% block content %}
 
@@ -40,6 +28,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
             integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
             crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="../../static/js/index2.js"></script>
   </body>
 </html>

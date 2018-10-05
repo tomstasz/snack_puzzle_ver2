@@ -78,18 +78,6 @@ $(function() {
                     console.log(JSON.parse(data));
                     data = JSON.parse(data);
 
-                    // console.log(data.measure);
-                    // for(var k = 0; k < data.measure.length ; k++) {
-                    //     if (data.measure[k].length === 0) {
-                    //         console.log("Nie ma takiego przepisu");
-                    //     } else {
-                    //         // alert("Możesz przygotować " + data.ready[k]);
-                    //         alert("Jesteś blisko, spróbuj innej miary dla " + data.measure[k])
-                    //
-                    //     }
-                    //
-                    // }
-
 
                     for(var i = 0; i < data.serial.length; i++) {
 
@@ -98,15 +86,51 @@ $(function() {
 
                         } else if (data.measure.length > 0){
                             for(var k = 0; k < data.measure.length ; k++) {
-                                 alert("Jesteś blisko, spróbuj innej miary dla " + data.measure[k])
+                                swal({
+                                      title: "Jesteś blisko przepisu na "
+                                          + data.measure[k].recipe_name.toUpperCase()
+                                          + "!",
+                                      text: "Spróbuj innej miary dla składnika "
+                                          + data.measure[k].ingredient_name.toUpperCase(),
+                                      icon: "info"
+                                    });
+
                             }
 
                         } else if (data.amount.length > 0){
                             for(var l = 0; l < data.amount.length ; l++) {
-                                 alert("Masz wymagane składniki, tylko trochę za mało, by zrobić " + data.amount[l])
+                                swal({
+                                      title: "Masz trochę za mało składnika " +
+                                          data.amount[l].ingredient_name.toUpperCase() +
+                                          ", by zrobić " + data.amount[l].recipe_name.toUpperCase()
+                                          + "!",
+                                      text: "Marsz do sklepu!",
+                                      icon: "warning"
+                                    });
                             }
 
                         } else {
+                            swal({
+                                      title: "Możesz przygotować " + data.serial[i].name.toUpperCase() + "!",
+                                      text: "Smacznego!",
+                                      icon: "success"
+                                    });
+
+                            // (function(e) {
+                            //     $checkboxes.one('mouseleave', function (event) {
+                            //     swal({
+                            //           title: "Możesz przygotować " + data.serial[e].name.toUpperCase() + "!",
+                            //           text: "Smacznego!",
+                            //           icon: "success"
+                            //         });
+                            // });
+                            // })(i);
+                            // function checkboxesOff() {
+                            //     $checkboxes.off('mouseleave');
+                            // }
+                            // setTimeout(checkboxesOff, 3000);
+
+
                             var $new_card_container = $("<div id='recipe_" + data.serial[i].id +
                                 "' class='card container-fluid mb-4' style='width: 25rem'>");
                             var $new_card_body = $("<div class='card-body'>");
