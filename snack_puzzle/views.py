@@ -12,22 +12,12 @@ from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIV
 from snack_puzzle import serializers
 from snack_puzzle.serializers import IngredientSerializer, RecipeSerializer
 from .models import Category, Ingredient, Recipe, Meal, IngredientRecipe
+
 # Create your views here.
 
 
-def compute_measure(amount, measure):
-    if measure == 'szklanka':
-        return amount
-    elif measure == 'łyżka':
-        return amount * 17
-    elif measure == 'łyzeczka':
-        return amount * 50
-    elif measure == 'litr':
-        return amount * 0.25
-
-
-def compare_ingredients(recipe, user_ing):
-    pass
+def remove_duplicates_in_list(l):
+    return list(set(l))
 
 
 class IndexView(View):
@@ -91,25 +81,44 @@ class IndexView(View):
             serializer = RecipeSerializer(instance=res, many=True)
 
             cooking_flag = False
+            recipe_true = []
+            counter_dict = dict()
+
             for recipe in res:
+                counter_dict[recipe] = 0
                 for recipe_data in recipe.ingredientrecipe_set.all():
+                    print("(recipe_data) Ingredient name: " + recipe_data.ingredient.name)
                     for user_ingredients_dict in ingredients_data:
                         if recipe_data.ingredient.name in user_ingredients_dict.values():
                             print("Sprawdzam: " + recipe_data.measure, user_ingredients_dict['measure'])
-                            if recipe_data.measure == user_ingredients_dict['measure']:
-                                if float(user_ingredients_dict['amount']) >= float(recipe_data.amount):
+                            if recipe_data.measure == (user_ingredients_dict['measure']):
+                                print(float(user_ingredients_dict['amount']), float(recipe_data.amount))
+                                if (float(user_ingredients_dict['amount'])) >= (float(recipe_data.amount)):
                                     cooking_flag = True
+                                    recipe_true.append(recipe.name)
+                                    counter_dict[recipe] += 1
 
-                print("Sukces, możesz ugotować " + recipe.name)
+                                else:
+                                    print("Wrong amount")
+                                    print(recipe.name, recipe_data.ingredient.name)
+                                    break
+                            else:
+                                print("Wrong measure")
+                                print(recipe.name, recipe_data.ingredient.name)
+                                break
 
-
-
-                    # print(recipe_data.ingredient.name, recipe_data.amount, recipe_data.measure)
+            if cooking_flag:
+                print("Counter: ", counter_dict)
+                print('Recipe_true:', recipe_true)
+                recipe_true = remove_duplicates_in_list(recipe_true)
+                print('Recipe_true_set:', recipe_true)
+                for i in counter_dict:
+                    if i.name in recipe_true and counter_dict[i] == len(i.ingredientrecipe_set.all()):
+                        print("Sukces, możesz przygotować ", i.name)
 
             print(serializer.data)
 
-            if cooking_flag:
-                return HttpResponse(json.dumps(serializer.data))
+            return HttpResponse(json.dumps(serializer.data))
         return TemplateResponse(request, 'snack_puzzle/index.html', ctx)
 
 
