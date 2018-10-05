@@ -11,6 +11,7 @@ $(function() {
     var $scroll_area = $('#scroll_area');
 
 
+
     function remove_ingredient(array, ingredient) {
         array.forEach(function(element, index) {
             if (element.name === ingredient) {
@@ -36,6 +37,10 @@ $(function() {
     });
 
     $hide_btn.on('click', function (event) {
+        $ingredient_tabs.removeClass('colapse show').addClass('collapse')
+    });
+
+    $recipe_nav.on('click', 'a', function (event) {
         $ingredient_tabs.removeClass('colapse show').addClass('collapse')
     });
 
@@ -89,7 +94,7 @@ $(function() {
                             var $new_card_text = $("<p class='card-text'>" + data[i].description + "</p>");
                             var $new_ingredient_list = $("<ul class='list-group list-group-flush'>");
 
-                            $recipe_nav.append($("<li><a href='#recipe_"+ data[i].id +"'>" + data[i].name + "</a></li>"));
+                            $recipe_nav.append($("<li><a class='nav_a' href='#recipe_"+ data[i].id +"'>" + data[i].name + "</a></li>"));
                             $scroll_area.append($new_card_container);
                             $new_card_container.append($new_card_body);
                             $new_card_body.append($new_card_title).
