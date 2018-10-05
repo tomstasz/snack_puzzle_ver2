@@ -28,56 +28,49 @@
                        data-toggle="collapse"
                        aria-controls="{{ slug }}{{ category.id }}" href="#{{ slug}}{{category.id }}">{{ category.get_name_display }}</a>
                     <div class="collapse ing-div" id="{{ slug }}{{ category.id }}">
-                    <div class="col-sm-6">
                     <div class="container">
-                    <ul>
+                    <ul class="row">
                     {% for ing in category.ingredient_set.all %}
 
-
-                                <li style="padding: 10px; list-style-type: square">
-                                <div class="form-check form-check-inline">
-                                <div class="form-inline"></div>
-                                    {% load thumbnail %}
-                                    <label class="mr-3">{{ ing.name }}
-                                    <a id="link_{{ ing.id }}" href="{{ ing.get_absolute_url }}"><img src="{{ing.path|thumbnail_url:'thumb' }}" class="rounded-circle mr-5"></a>
-                                    </label>
-
-
-                                    {% csrf_token %}
+                        <li class="col-sm-6" style="padding: 10px; list-style-type: square">
+                        <div class="form-check form-check-inline">
+                        <div class="form-inline"></div>
+                            {% load thumbnail %}
+                            <label class="mr-3">{{ ing.name }}
+                            <a id="link_{{ ing.id }}" href="{{ ing.get_absolute_url }}">
+                                <img src="{{ing.path|thumbnail_url:'thumb' }}" class="rounded-circle mr-5">
+                            </a>
+                            </label>
 
 
-
-                                    <input type="number" step="0.1" min="0" id="num_{{ ing.id }}" class="form-control form-control-sm num" value="0">
-                                    <select class="form-control form-control-sm select" id="select_{{ ing.id }}">
-                                        <option value="" selected>----</option>
-                                        <option value="dag">dag</option>
-                                        <option value="g">g</option>
-                                        <option value="l">litr</option>
-                                        <option value="łyżecz.">łyżeczka</option>
-                                        <option value="łyż.">łyżka</option>
-                                        <option value="opak.">opak.</option>
-                                        <option value="pęcz.">pęczek</option>
-                                        <option value="szczypt.">szczypta</option>
-                                        <option value="szklan.">szklanka</option>
-                                        <option value="szt.">szt.</option>
-                                    </select>
+                            {% csrf_token %}
 
 
 
-                                    <input class="form-check-input check ml-4" type="checkbox" id="{{ ing.id }}" value="" data-name="{{ ing.name }}">
+                            <input type="number" step="0.1" min="0" id="num_{{ ing.id }}" class="form-control form-control-sm num" value="0">
+                            <select class="form-control form-control-sm select" id="select_{{ ing.id }}">
+                                <option value="" selected>----</option>
+                                <option value="dag">dag</option>
+                                <option value="g">g</option>
+                                <option value="l">litr</option>
+                                <option value="łyżecz.">łyżeczka</option>
+                                <option value="łyż.">łyżka</option>
+                                <option value="opak.">opak.</option>
+                                <option value="pęcz.">pęczek</option>
+                                <option value="szczypt.">szczypta</option>
+                                <option value="szklan.">szklanka</option>
+                                <option value="szt.">szt.</option>
+                            </select>
 
+                            <input class="form-check-input check ml-4" type="checkbox" id="{{ ing.id }}" value="" data-name="{{ ing.name }}">
 
-                                </div>
-
-
-                                </li>
-
+                        </div>
+                        </li>
 
                     {% empty %}
                         <p>brak składników</p>
                     {% endfor %}
                     </ul>
-                    </div>
                     </div>
                     </div>
                 {% endfor %}
@@ -91,16 +84,6 @@
                         <div class="col-sm-3">
                             <nav id="myscrollspy">
                                 <ul id="recipe_nav">
-                                    <li><a href="#recipe_{{ recipe.id }}">{{ recipe.name }}</a></li>
-                                    <li><a href="#section2">Section 2</a></li>
-                                    <li><a href="#section3">Section 3</a></li>
-                                    <li class="dropdown">
-                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Section 4 <span class="caret"></span></a>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="#section41">Section 4-1</a></li>
-                                            <li><a href="#section42">Section 4-2</a></li>
-                                        </ul>
-                                    </li>
                                 </ul>
                             </nav>
 
@@ -109,49 +92,7 @@
                         <div class="col-sm-9">
 
                             <div id="scroll_area" data-spy="scroll" data-target="#myscrollspy" data-offset="0">
-                                <div id="recipe_{{ recipe.id }}" class="card container-fluid mb-4" style="width: 25rem">
-                                    <div class="card-body">
-                                        <h3 class="card-title">{{ recipe.name }}</h3>
-                                        <h5 class="card-subtitle text-muted pb-3">{{ recipe.time }} min.</h5>
-                                        <p class="card-text">{{ recipe.description }}</p>
-                                             <ul class="list-group list-group-flush">
-                                                 {% for ingredient_data in ingredients %}
-                                                     <li class="list-group-item">{{ ingredient_data.ingredient.name }}
-                                                         <span class="float-right">{{ ingredient_data.amount }}</span></li>
-                                                 {% empty %}
-                                                     <p>brak składników</p>
-                                                 {% endfor %}
-                                             </ul>
-                                    <div class="card-body">
-                                        <a href="{{ recipe.url }}" class="card-link">Zobacz przepis</a>
-                                    </div>
-                                    </div>
-
-                                </div>
-
-                                <div id="section2">
-                                    <h1>Section 2</h1>
-                                            <p>Try to scroll this section and look at the navigation list while scrolling!</p>
-                                </div>
-                                <div id="section3">
-                                    <h1>Section 3</h1>
-                                            <p>Try to scroll this section and look at the navigation list while scrolling!</p>
-                                </div>
-                                <div id="section41">
-                                    <h1>Section 4-1</h1>
-                                    <p>Try to scroll this section and look at the navigation list while scrolling!</p>
-                                 </div>
-                                <div id="section42">
-                                    <h1>Section 4-2</h1>
-                                    <p>Try to scroll this section and look at the navigation list while scrolling!</p>
-                                </div>
-
                             </div>
-
-
-
-
-
 
                         </div>
                     </div>
