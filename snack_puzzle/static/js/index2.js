@@ -11,6 +11,14 @@ $(function() {
     var $scroll_area = $('#scroll_area');
 
 
+    function random_phrase() {
+        var phrases = ["Marsz do sklepu!", "Przetrząśnij kuchnię!", "Czas na zakupy!", "Może sąsiad pożyczy?"];
+        return phrases[Math.floor(Math.random() * phrases.length)];
+    }
+
+
+
+
 
     function remove_ingredient(array, ingredient) {
         array.forEach(function(element, index) {
@@ -104,7 +112,7 @@ $(function() {
                                           data.amount[l].ingredient_name.toUpperCase() +
                                           ", by zrobić " + data.amount[l].recipe_name.toUpperCase()
                                           + "!",
-                                      text: "Marsz do sklepu!",
+                                      text: random_phrase(),
                                       icon: "warning"
                                     });
                             }
