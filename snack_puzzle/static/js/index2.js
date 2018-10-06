@@ -9,16 +9,25 @@ $(function() {
     var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
     var $recipe_nav = $('#recipe_nav');
     var $scroll_area = $('#scroll_area');
+    var $num_fields = $('.num');
+    var $select_fields = $('.select');
 
+
+    event_handler($num_fields);
+    event_handler($select_fields);
+
+
+    function event_handler(element) {
+        element.on('change', function(event) {
+            $(this).siblings('.check').removeClass('hidden')
+
+        });
+    }
 
     function random_phrase() {
         var phrases = ["Marsz do sklepu!", "Przetrząśnij kuchnię!", "Czas na zakupy!", "Może sąsiad pożyczy?"];
         return phrases[Math.floor(Math.random() * phrases.length)];
     }
-
-
-
-
 
     function remove_ingredient(array, ingredient) {
         array.forEach(function(element, index) {
@@ -51,6 +60,7 @@ $(function() {
     $recipe_nav.on('click', 'a', function (event) {
         $ingredient_tabs.removeClass('colapse show').addClass('collapse')
     });
+
 
     $checkboxes.each(function(index, element) {
         $(element).on('change', function(event) {
@@ -118,26 +128,6 @@ $(function() {
                             }
 
                         } else {
-                            swal({
-                                      title: "Możesz przygotować " + data.serial[i].name.toUpperCase() + "!",
-                                      text: "Smacznego!",
-                                      icon: "success"
-                                    });
-
-                            // (function(e) {
-                            //     $checkboxes.one('mouseleave', function (event) {
-                            //     swal({
-                            //           title: "Możesz przygotować " + data.serial[e].name.toUpperCase() + "!",
-                            //           text: "Smacznego!",
-                            //           icon: "success"
-                            //         });
-                            // });
-                            // })(i);
-                            // function checkboxesOff() {
-                            //     $checkboxes.off('mouseleave');
-                            // }
-                            // setTimeout(checkboxesOff, 3000);
-
 
                             var $new_card_container = $("<div id='recipe_" + data.serial[i].id +
                                 "' class='card container-fluid mb-4' style='width: 25rem'>");
@@ -170,6 +160,7 @@ $(function() {
                             var $new_link = $("<a href='" + data.serial[i].url + "' class='card-link'>Zobacz przepis</a>");
                             $new_card_container.append($new_card_body_link);
                             $new_card_body_link.append($new_link);
+
                         }
                     }
 
@@ -179,7 +170,8 @@ $(function() {
 
         })
 
-    })
+    });
+
 
 
 
