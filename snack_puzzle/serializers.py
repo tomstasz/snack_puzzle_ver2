@@ -20,7 +20,6 @@ class CategorySerializer(serializers.ModelSerializer):
 class IngredientRecipeSerializer(serializers.ModelSerializer):
 
     ingredient = IngredientSerializer(read_only=True)
-    # recipe = RecipeSerializer(read_only=True)
 
     class Meta:
         model = IngredientRecipe
@@ -28,7 +27,6 @@ class IngredientRecipeSerializer(serializers.ModelSerializer):
 
 
 class RecipeSerializer(serializers.ModelSerializer):
-    # ingredient = IngredientSerializer(many=True, read_only=True)
     ingredient_recipe = IngredientRecipeSerializer(source='ingredientrecipe_set', many=True, read_only=True)
 
     class Meta:

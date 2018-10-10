@@ -1,2 +1,2 @@
-# snack_puzzle_ver2
-Version with templates
+# snack_puzzle
+Application allowing people to check which dish could be made using chosen ingredients or during chosen period of time.  

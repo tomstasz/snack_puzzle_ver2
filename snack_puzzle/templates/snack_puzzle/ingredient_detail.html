@@ -3,7 +3,7 @@
 {% block content %}
     <h3>{{ ingredient.name }}</h3>
     <p><img src="{{ ingredient.path.url }}"></p>
-    <h4>Jest składnikiem przepisów:</h4>
+    <h4>Przepisy z tym składnikiem:</h4>
     <ul>
     {% for recipe_data in recipes %}
         <li style="list-style-type: square"><a href="{{ recipe_data.recipe.url }}">{{ recipe_data.recipe.name }}</a></li>
