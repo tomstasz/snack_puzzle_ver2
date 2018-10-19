@@ -3,11 +3,25 @@
 {% block content %}
     <div class="container">
         <div class="col-sm-12">
-                <div class="alert alert-link">
+            <div class="alert alert-link">
+                {% if request.user.is_authenticated %}
+                     <div class="float-right">Witaj {{ request.user.username }} <a href="{% url 'logout' %}">Wyloguj</a></div>
+{#                        <a href="{% url 'profile' %}">Mój profil</a>#}
+                {% else %}
+                   <div class="float-right"><a href="{% url 'register' %}">Zarejestruj się</a>
+                    <a href="{% url 'login' %}">Zaloguj się</a><br>
+                   </div>
+                {% endif %}
                 <h1 style="color: darkslateblue; font-weight: bold">Snack puzzle</h1>
+            <div class="float-right">
+                Jedynie zalogowani użytkownicy mogą dodawać nowe przepisy.
+                <a href="{% url 'add_recipe' %}">Dodaj przepis</a>
+            </div>
+{#                <a href="{% url 'add_amount' %}" class="float-right">Określ ilość</a>#}
                 <h5 style="color: crimson">Dish, as you wish!</h5>
                 <hr>
                 <p>Wybież składniki, którymi aktualnie dysponujesz i sprawdź, jakie dania możesz z nich przygotować.</p>
+
             </div>
         </div>
     </div>

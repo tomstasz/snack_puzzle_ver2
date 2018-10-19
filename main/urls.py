@@ -22,6 +22,13 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns, static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.IndexView.as_view(), name='index'),
+    path('login', views.LoginView.as_view(), name='login'),
+    path('logout', views.LogoutView.as_view(), name='logout'),
+    path('register', views.AddUserView.as_view(), name='register'),
     path('ingredient_detail/<pk>', views.IngredientDetailView.as_view(), name='ingredient_detail'),
+    path('add_recipe', views.RecipeCreateView.as_view(), name='add_recipe'),
+    path('add_amount', views.IngredientRecipeCreateView.as_view(), name='add_amount'),
+    # path('add_recipe', views.AddRecipe.as_view(), name='add_recipe'),
+    # path('add_amount', views.AddAmount.as_view(), name='add_amount'),
 ] + staticfiles_urlpatterns() + \
   static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

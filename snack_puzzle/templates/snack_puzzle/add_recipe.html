@@ -1,0 +1,24 @@
+{% extends 'snack_puzzle/base.html'%}
+
+{% block content %}
+    {% if request.user.is_authenticated %}
+        Witaj {{ request.user.username }} <a href="{% url 'logout' %}">Wyloguj</a>
+        <a href="{% url 'profile' %}">Mój profil</a>
+    {% else %}
+        <a href="{% url 'register' %}">Zarejestruj się</a>
+    {% endif %}
+
+
+    <form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_table }}
+    <input type="submit" name="recipe" class="button-form" id="button_recipe" value="dodaj przepis">
+    </form>
+{#    <br><hr>#}
+{#    <form action="" method="post" id="form_amount" class="hidden">#}
+{#    {% csrf_token %}#}
+{#    {{ form_amount.as_table }}#}
+{#    <input type="submit" name="amount" class="button-form" id="button_amount" value="dodaj składnik">#}
+{#    </form>#}
+{#    <script src="../../static/js/add_recipe.js"></script>#}
+{% endblock %}

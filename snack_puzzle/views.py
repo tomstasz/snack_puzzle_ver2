@@ -1,9 +1,17 @@
 from django.http import HttpResponse
+from django.shortcuts import redirect
 from django.template.response import TemplateResponse
+from django.urls import reverse_lazy
 from django.views import View
 import json
+from django.contrib.auth import login, authenticate, logout
+from django.views.generic import CreateView
+
+# from snack_puzzle.forms import AddRecipeForm, AddAmountForm
+from snack_puzzle.forms import AddRecipeForm, LoginForm, AddUserForm
 from snack_puzzle.serializers import RecipeSerializer
-from .models import Category, Ingredient, Recipe
+from .models import Category, Ingredient, Recipe, IngredientRecipe, User
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 
@@ -111,4 +119,114 @@ class IngredientDetailView(View):
         return TemplateResponse(request, 'snack_puzzle/ingredient_detail.html', ctx)
 
 
+# class AddRecipe(View):
+#
+#     template_name = "snack_puzzle/add_recipe.html"
+#
+#     def get(self, request):
+#         form = AddRecipeForm()
+#         # form_amount = AddAmountForm()
+#         return TemplateResponse(request, self.template_name, {'form': form})
+#
+#     def post(self, request):
+#         form = AddRecipeForm(request.POST)
+#         ctx = {'form': form}
+#         if form.is_valid():
+#             request.session['name'] = form.cleaned_data['name']
+#             request.session['description'] = form.cleaned_data['description']
+#             request.session['url'] = form.cleaned_data['url']
+#             request.session['time'] = form.cleaned_data['time']
+#             # request.session['user'] = request.user
+#
+#             # Recipe.objects.create(name=name, description=description, url=url, time=time, user=user)
+#             return redirect('add_amount')
+#         return TemplateResponse(request, self.template_name, ctx)
+#
+#
+# class AddAmount(View):
+#
+#     template_name = "snack_puzzle/add_amount.html"
+#
+#     def get(self, request):
+#         form = AddAmountForm()
+#         return TemplateResponse(request, self.template_name, {'form': form})
+#
+#     def post(self, request):
+#         form = AddAmountForm(request.POST)
+#         ctx = {'form': form}
+#         recipe_data = dict()
+#         if form.is_valid():
+#             ingredient = form.cleaned_data['ingredient']
+#             amount = form.cleaned_data['amount']
+#             measure = form.cleaned_data['measure']
+#             name = request.session['name']
+#             description = request.session['description']
+#             url = request.session['url']
+#             time = request.session['time']
+#             user = request.user
+#
+#
+#             # Recipe.objects.create(name=name, description=description, url=url, time=time, user=user)
+#             return redirect('add_amount')
+#         return TemplateResponse(request, self.template_name, ctx)
 
+
+class RecipeCreateView(LoginRequiredMixin, CreateView):
+    login_url = 'login'
+    model = Recipe
+    form_class = AddRecipeForm
+    # fields = ['name', 'description', 'time']
+
+    success_url = reverse_lazy("add_amount")
+
+
+class IngredientRecipeCreateView(CreateView):
+    model = IngredientRecipe
+    fields = '__all__'
+    success_url = reverse_lazy("index")
+
+
+class LoginView(View):
+
+    def get(self, request):
+        return TemplateResponse(request, 'snack_puzzle/login.html', {'form': LoginForm()})
+
+    def post(self, request):
+        form = LoginForm(request.POST)
+        ctx = {'form': form, 'message': None}
+        if form.is_valid():
+            username = form.cleaned_data['login']
+            password = form.cleaned_data['password']
+
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('index')
+            else:
+                ctx.update({'message': 'Błąd loginu lub hasła'})
+        return TemplateResponse(request, 'snack_puzzle/login.html', ctx)
+
+
+class LogoutView(View):
+
+    def get(self, request):
+        logout(request)
+        return redirect('index')
+
+
+class AddUserView(View):
+
+    def get(self, request):
+        form = AddUserForm()
+        return TemplateResponse(request, 'snack_puzzle/user_form.html', {'form': form})
+
+    def post(self, request):
+        form = AddUserForm(request.POST)
+        ctx = {'form': form}
+        if form.is_valid():
+            email = form.cleaned_data['login']
+            password = form.cleaned_data['password']
+            new_user = User.objects.create_user(username=email, email=email, password=password)
+            login(request, new_user)
+            return redirect('index')
+        return TemplateResponse(request, 'snack_puzzle/user_form.html', ctx)

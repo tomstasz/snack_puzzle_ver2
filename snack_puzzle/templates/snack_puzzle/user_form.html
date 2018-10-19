@@ -1,0 +1,10 @@
+{% extends 'snack_puzzle/base.html' %}
+
+{% block content %}
+<form action="#" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="zarejestruj się">
+</form>
+<a href="{% url 'index' %}">Powrót</a>
+{% endblock %}
