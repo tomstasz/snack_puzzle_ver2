@@ -4,7 +4,7 @@
     <form action="" method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="dodaj przepis">
+    <input type="submit" value="dalej">
     </form>
     <a href="{% url 'index' %}">Powrót</a>
 {% endblock %}

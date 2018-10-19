@@ -1,0 +1,12 @@
+{% extends 'snack_puzzle/base.html'%}
+
+{% block content %}
+    <div>Pojedynczo dodawaj składniki do przepisu {{ full_recipe.recipe.name }}</div>
+    <form action="" method="post" id="form_amount">
+    {% csrf_token %}
+    {{ form_amount.as_table }}
+    <input type="submit" name="amount" class="button-form" id="button_amount" value="dodaj składnik">
+    </form>
+
+{#    <script src="../../static/js/add_recipe.js"></script>#}
+{% endblock %}
