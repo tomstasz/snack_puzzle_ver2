@@ -110,7 +110,7 @@ class IngredientDetailView(View):
 class RecipeCreateView(LoginRequiredMixin, CreateView):
     login_url = 'login'
     model = Recipe
-    fields = ['name', 'description', 'url', 'time']
+    fields = ['name', 'url', 'description', 'time']
     success_url = reverse_lazy("add_amount")
 
     def form_valid(self, form):

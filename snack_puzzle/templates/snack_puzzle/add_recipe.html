@@ -1,9 +1,0 @@
-{% extends 'snack_puzzle/base.html'%}
-
-{% block content %}
-    <form action="" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" name="recipe" class="button-form" id="button_recipe" value="dalej">
-    </form>
-{% endblock %}
