@@ -5,7 +5,7 @@ tags
 .idea/
 .vagrant/
 
-
+secret_settings.py
 
 # Created by https://www.gitignore.io/api/django,python,visualstudiocode
 
