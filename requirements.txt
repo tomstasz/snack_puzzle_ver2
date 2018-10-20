@@ -3,7 +3,7 @@ backcall==0.1.0
 decorator==4.3.0
 dj-database-url==0.5.0
 dj-static==0.0.6
-Django==2.1.1
+Django==2.1.2
 django-braces==1.13.0
 django-cors-headers==2.4.0
 django-extensions==2.1.2
