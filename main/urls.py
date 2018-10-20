@@ -28,7 +28,5 @@ urlpatterns = [
     path('ingredient_detail/<pk>', views.IngredientDetailView.as_view(), name='ingredient_detail'),
     path('add_recipe', views.RecipeCreateView.as_view(), name='add_recipe'),
     path('add_amount', views.IngredientRecipeCreateView.as_view(), name='add_amount'),
-    # path('add_recipe', views.AddRecipe.as_view(), name='add_recipe'),
-    # path('add_amount', views.AddAmount.as_view(), name='add_amount'),
 ] + staticfiles_urlpatterns() + \
   static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,6 +1,7 @@
 {% extends 'snack_puzzle/base.html'%}
 
 {% block content %}
+   <h5>Pojedynczo dodawaj składniki przepisu:</h5><br>
     <form action="" method="post">
     {% csrf_token %}
     {{ form.as_p }}

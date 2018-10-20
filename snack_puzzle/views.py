@@ -41,12 +41,9 @@ class IndexView(View):
             data = json.loads(request.POST['data'])
             ingredients_data = data['ingredients']
             ingredients = []
-            print('-------')
+
             for user_ingredients_dict in ingredients_data:
                 ingredients.append(user_ingredients_dict['name'])
-
-                print(user_ingredients_dict['name'], user_ingredients_dict['amount'], user_ingredients_dict['measure'])
-            print('-------')
 
             res = Recipe.objects.filter(
                 ingredient__name__in=ingredients).exclude(
@@ -68,12 +65,9 @@ class IndexView(View):
             for recipe in res:
                 counter_dict[recipe] = 0
                 for recipe_data in recipe.ingredientrecipe_set.all():
-                    print("(recipe_data) Ingredient name: " + recipe_data.ingredient.name)
                     for user_ingredients_dict in ingredients_data:
                         if recipe_data.ingredient.name in user_ingredients_dict.values():
-                            print("Sprawdzam: " + recipe_data.measure, user_ingredients_dict['measure'])
                             if recipe_data.measure == (user_ingredients_dict['measure']):
-                                print(float(user_ingredients_dict['amount']), float(recipe_data.amount))
                                 if (float(user_ingredients_dict['amount'])) >= (float(recipe_data.amount)):
                                     cooking_flag = True
                                     recipe_true.append(recipe.name)
@@ -87,13 +81,9 @@ class IndexView(View):
                                 break
 
             if cooking_flag:
-                print("Counter: ", counter_dict)
-                print('Recipe_true:', recipe_true)
                 recipe_true = remove_duplicates_in_list(recipe_true)
-                print('Recipe_true_set:', recipe_true)
                 for i in counter_dict:
                     if i.name in recipe_true and counter_dict[i] == len(i.ingredientrecipe_set.all()):
-                        print("Sukces, możesz przygotować ", i.name)
                         ready_to_cook.append(i.name)
                         ready_to_cook = remove_duplicates_in_list(ready_to_cook)
                         to_dump['ready'] = ready_to_cook
@@ -120,7 +110,7 @@ class IngredientDetailView(View):
 class RecipeCreateView(LoginRequiredMixin, CreateView):
     login_url = 'login'
     model = Recipe
-    fields = ['name', 'description', 'time']
+    fields = ['name', 'description', 'url', 'time']
     success_url = reverse_lazy("add_amount")
 
     def form_valid(self, form):

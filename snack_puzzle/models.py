@@ -53,11 +53,11 @@ class Ingredient(models.Model):
 
 
 class Recipe(models.Model):
-    name = models.CharField(max_length=100, verbose_name='Przepis')
+    name = models.CharField(max_length=100, verbose_name='Nazwa przepisu')
     path = models.ImageField(upload_to='recipe_photo', verbose_name='Zdjęcie', null=True, blank=True)
-    description = models.TextField(verbose_name='Sposób przygotowania', blank=True)
-    url = models.URLField(max_length=100, verbose_name="Link", blank=True)
-    time = models.IntegerField(verbose_name='Czas przygotowania', help_text='Czas w minutach', null=True, blank=True)
+    description = models.TextField(verbose_name='Sposób przygotowania (opc.)', blank=True)
+    url = models.URLField(max_length=100, verbose_name="Link do przepisu", blank=True)
+    time = models.IntegerField(verbose_name='Czas przygotowania ( w min.)', null=True, blank=True)
     ingredient = models.ManyToManyField(Ingredient, through='IngredientRecipe', verbose_name='Składniki')
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Użytkownik", null=True, blank=True)
     date_add = models.DateField(auto_now_add=True)
@@ -96,7 +96,7 @@ class IngredientRecipe(models.Model):
         ('opak.', 'opak.'),
         ('l', 'l'),
     )
-    ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
+    ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE, verbose_name="Składnik")
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     amount = models.FloatField(verbose_name="Ilość")
     measure = models.CharField(choices=MEASURES, default='dag', max_length=32, verbose_name="Miara", null=True)

@@ -6,7 +6,6 @@
             <div class="alert alert-link">
                 {% if request.user.is_authenticated %}
                      <div class="float-right">Witaj {{ request.user.username }} <a href="{% url 'logout' %}">Wyloguj</a></div>
-{#                        <a href="{% url 'profile' %}">Mój profil</a>#}
                 {% else %}
                    <div class="float-right"><a href="{% url 'register' %}">Zarejestruj się</a>
                     <a href="{% url 'login' %}">Zaloguj się</a><br>
@@ -17,10 +16,14 @@
                 Jedynie zalogowani użytkownicy mogą dodawać nowe przepisy.
                 <a href="{% url 'add_recipe' %}">Dodaj przepis</a>
             </div>
-{#                <a href="{% url 'add_amount' %}" class="float-right">Określ ilość</a>#}
                 <h5 style="color: crimson">Dish, as you wish!</h5>
                 <hr>
-                <p>Wybież składniki, którymi aktualnie dysponujesz i sprawdź, jakie dania możesz z nich przygotować.</p>
+                <p>Wybież składniki, którymi aktualnie dysponujesz i sprawdź, jakie dania możesz z nich przygotować.
+                    <br>
+                    <br>
+                Przykładowe przepisy:<br>
+                1 szt. masła + 2 łyżki soli + 1 szt. szosnku = masło czosnkowe<br>
+                100 dag jabłek + 2 litry wody + 1 łyżka cukru + 1 łyżka cukru waniliowego = kompot jabłkowy</p>
 
             </div>
         </div>
