@@ -87,7 +87,7 @@ $(function() {
             }
             var data = JSON.stringify({ingredients: $ingredients});
             $.ajax({
-                    url: 'http://127.0.0.1:8000',
+                    url: 'https://lit-garden-39029.herokuapp.com/',
                     method:'POST',
                     data: {data: data, csrfmiddlewaretoken: csrftoken},
                 }).done(function (data) {
