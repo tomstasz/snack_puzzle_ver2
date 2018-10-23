@@ -92,8 +92,11 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': 'coderslab',
         'HOST': 'localhost',
-    }
+    },
 }
+# DATABASES = {
+#     'default': dj_database_url.config(default='postgres://localhost')
+# }
 
 
 # Password validation
@@ -150,4 +153,4 @@ THUMBNAIL_ALIASES = {
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')  #
 
 
-
+DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
