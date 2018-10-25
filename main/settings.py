@@ -28,7 +28,7 @@ STATICFILES_DIRS = [
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']  #
 
@@ -94,10 +94,6 @@ DATABASES = {
         'HOST': 'localhost',
     },
 }
-# DATABASES = {
-#     'default': dj_database_url.config(default='postgres://localhost')
-# }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -153,4 +149,4 @@ THUMBNAIL_ALIASES = {
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')  #
 
 
-# DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+

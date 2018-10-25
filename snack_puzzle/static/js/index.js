@@ -87,7 +87,7 @@ $(function() {
             }
             var data = JSON.stringify({ingredients: $ingredients});
             $.ajax({
-                    url: 'https://immense-ocean-28475.herokuapp.com',
+                    url: 'https://snack-puzzle.herokuapp.com',
                     method:'POST',
                     data: {data: data, csrfmiddlewaretoken: csrftoken},
                 }).done(function (data) {
