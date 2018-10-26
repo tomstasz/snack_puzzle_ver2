@@ -87,7 +87,7 @@ $(function() {
             }
             var data = JSON.stringify({ingredients: $ingredients});
             $.ajax({
-                    url: 'http://127.0.0.1:800',
+                    url: 'https://quiet-earth-67173.herokuapp.com',
                     method:'POST',
                     data: {data: data, csrfmiddlewaretoken: csrftoken},
                 }).done(function (data) {
