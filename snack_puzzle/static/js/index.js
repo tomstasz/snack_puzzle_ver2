@@ -87,7 +87,7 @@ $(function() {
             }
             var data = JSON.stringify({ingredients: $ingredients});
             $.ajax({
-                    url: 'https://snack-puzzle.herokuapp.com',
+                    url: 'https://obscure-dawn-30871.herokuapp.com/ ',
                     method:'POST',
                     data: {data: data, csrfmiddlewaretoken: csrftoken},
                 }).done(function (data) {
