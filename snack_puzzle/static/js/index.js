@@ -87,7 +87,7 @@ $(function() {
             }
             var data = JSON.stringify({ingredients: $ingredients});
             $.ajax({
-                    url: 'https://obscure-dawn-30871.herokuapp.com/ ',
+                    url: 'http://127.0.0.1:800',
                     method:'POST',
                     data: {data: data, csrfmiddlewaretoken: csrftoken},
                 }).done(function (data) {
