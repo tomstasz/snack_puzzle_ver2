@@ -56,8 +56,7 @@
                             {% load thumbnail %}
                             <label class="mr-3">{{ ing.name }}
                             <a id="link_{{ ing.id }}" href="{{ ing.get_absolute_url }}">
-
-                                <img src="https://s3.eu-central-1.amazonaws.com/snack-puzzle/{{ ing.path }}" class="rounded-circle mr-5">
+                            <img src="https://s3.eu-central-1.amazonaws.com/snack-puzzle/small/{{ ing.id }}.jpg" class="rounded-circle mr-5">
 {#                                <img src="{{ing.path|thumbnail_url:'thumb' }}" class="rounded-circle mr-5">#}
                             </a>
                             </label>
