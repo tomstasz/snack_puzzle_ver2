@@ -11,6 +11,7 @@ Implemented:
 - Notification when wrong ingredient measure
 - User register and login
 - User recipe form
+- Searching by time needed for every recipe
 
 Planned implementations:
 - Additional notification when recipe was just generated
