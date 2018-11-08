@@ -15,6 +15,5 @@ Implemented:
 Planned implementations:
 - Additional notification when recipe was just generated
 - Unification of some similar measures
-- Searching by time nedded for every recipe
 - Show recipes categorized by specific meal type
 
