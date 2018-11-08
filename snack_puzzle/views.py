@@ -192,6 +192,6 @@ class TimeSearch(View):
         ctx = {'form': form}
         if form.is_valid():
             time = form.cleaned_data['time']
-            recipes = Recipe.objects.filter(time__lte=time)
+            recipes = Recipe.objects.filter(time__lte=int(time))
             ctx.update({'recipes': recipes})
-        return TemplateResponse(request, 'snack_puzzle/user_form.html', ctx)
+        return TemplateResponse(request, 'snack_puzzle/time_search_form.html', ctx)

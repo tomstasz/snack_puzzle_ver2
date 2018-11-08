@@ -11,8 +11,6 @@
     <ul>
     {% for recipe_data in recipes %}
         <li style="list-style-type: square"><a href="{{ recipe_data.recipe.url }}">{{ recipe_data.recipe.name }}</a></li>
-    {% empty %}
-        <p>Brak przepisów</p>
     {% endfor %}
     </ul>
     <a href="{% url 'index' %}">Powrót</a>
