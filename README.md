@@ -17,4 +17,4 @@ Planned implementations:
 - Unification of some similar measures
 - Searching by time nedded for every recipe
 - Show recipes categorized by specific meal type
-- Enlarge recipe database
+
