@@ -6,7 +6,7 @@ from django.views import View
 import json
 from django.contrib.auth import login, authenticate, logout
 from django.views.generic import CreateView
-from snack_puzzle.forms import LoginForm, AddUserForm
+from snack_puzzle.forms import LoginForm, AddUserForm, TimeSearchForm
 from snack_puzzle.serializers import RecipeSerializer
 from .models import Category, Ingredient, Recipe, IngredientRecipe, User
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -179,4 +179,19 @@ class AddUserView(View):
             new_user = User.objects.create_user(username=email, email=email, password=password)
             login(request, new_user)
             return redirect('index')
+        return TemplateResponse(request, 'snack_puzzle/user_form.html', ctx)
+
+
+class TimeSearch(View):
+    def get(self, request):
+        form = TimeSearchForm()
+        return TemplateResponse(request, 'snack_puzzle/time_search_form.html', {'form': form})
+
+    def post(self, request):
+        form = TimeSearchForm(request.POST)
+        ctx = {'form': form}
+        if form.is_valid():
+            time = form.cleaned_data['time']
+            recipes = Recipe.objects.filter(time__lte=time)
+            ctx.update({'recipes': recipes})
         return TemplateResponse(request, 'snack_puzzle/user_form.html', ctx)

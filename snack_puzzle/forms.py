@@ -28,3 +28,5 @@ class ResetPasswordForm(forms.Form):
             raise ValidationError('Niepoprawne hasło')
 
 
+class TimeSearchForm(forms.Form):
+    time = forms.IntegerField(label='Podaj czas w min.')

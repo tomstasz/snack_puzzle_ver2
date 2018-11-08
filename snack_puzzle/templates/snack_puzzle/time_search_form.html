@@ -1,0 +1,19 @@
+{% extends 'snack_puzzle/base.html' %}
+
+{% block content %}
+    <h4>Wyszukaj przepisy:</h4>
+    <form action="#" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="szukaj">
+    </form>
+
+    <ul>
+    {% for recipe_data in recipes %}
+        <li style="list-style-type: square"><a href="{{ recipe_data.recipe.url }}">{{ recipe_data.recipe.name }}</a></li>
+    {% empty %}
+        <p>Brak przepisów</p>
+    {% endfor %}
+    </ul>
+    <a href="{% url 'index' %}">Powrót</a>
+{% endblock %}
