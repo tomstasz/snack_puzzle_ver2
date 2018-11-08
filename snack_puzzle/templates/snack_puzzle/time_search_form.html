@@ -10,7 +10,7 @@
 
     <ul>
     {% for recipe_data in recipes %}
-        <li style="list-style-type: square"><a href="{{ recipe_data.recipe.url }}">{{ recipe_data.recipe.name }}</a></li>
+        <li style="list-style-type: square"><a href="{{ recipe_data.url }}">{{ recipe_data.name }}</a></li>
     {% endfor %}
     </ul>
     <a href="{% url 'index' %}">Powrót</a>
