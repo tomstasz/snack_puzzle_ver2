@@ -7,8 +7,8 @@ Application allowing users to check which dish could be made using chosen ingred
 <a href="https://snack-puzzle.herokuapp.com/">Application deployed on heroku server</a>
 
 Implemented:
-- Notification when ingredient amount is to low
-- Notification when wrong ingredient measure
+- Notification when ingredient amount is too low
+- Notification when wrong ingredient measure was chosen
 - User register and login
 - User recipe form
 - Searching by time needed for every recipe
