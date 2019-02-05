@@ -1,5 +1,7 @@
 # snack_puzzle_ver2
-Application allows users to check which dish could be made using chosen ingredients or during chosen period of time.  
+The application allows users to check which dish can be made, using ingredients at hand. 
+The application will inform us when we are close to generating any recipe (together with the amount of lacking ingredient). 
+Logged users can add their own recipes.<br>
 <img src="snack_puzzle/static/images/snack01.png" alt="Snack Puzzle" width="200" height="150"/>
 <img src="snack_puzzle/static/images/snack02.png" alt="Snack Puzzle" width="200" height="150"/>
 <img src="snack_puzzle/static/images/snack03.png" alt="Snack Puzzle" width="200" height="150"/>
