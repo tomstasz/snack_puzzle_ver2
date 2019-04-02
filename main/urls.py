@@ -25,9 +25,13 @@ urlpatterns = [
     path('login', views.LoginView.as_view(), name='login'),
     path('logout', views.LogoutView.as_view(), name='logout'),
     path('register', views.AddUserView.as_view(), name='register'),
-    path('ingredient_detail/<pk>', views.IngredientDetailView.as_view(), name='ingredient_detail'),
+    path('ingredient_detail/<pk>',
+         views.IngredientDetailView.as_view(),
+         name='ingredient_detail'),
     path('add_recipe', views.RecipeCreateView.as_view(), name='add_recipe'),
-    path('add_amount', views.IngredientRecipeCreateView.as_view(), name='add_amount'),
+    path('add_amount',
+         views.IngredientRecipeCreateView.as_view(),
+         name='add_amount'),
     path('time_search', views.TimeSearch.as_view(), name='time_search')
 ] + staticfiles_urlpatterns() + \
   static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -14,6 +14,10 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='ingredientrecipe',
             name='ingredient',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='snack_puzzle.Ingredient', verbose_name='Składnik'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to='snack_puzzle.Ingredient',
+                verbose_name='Składnik'
+            ),
         ),
     ]

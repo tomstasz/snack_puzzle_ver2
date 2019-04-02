@@ -13,6 +13,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='recipe',
             name='url',
-            field=models.URLField(blank=True, max_length=100, verbose_name='Link do przepisu'),
+            field=models.URLField(blank=True,
+                                  max_length=100,
+                                  verbose_name='Link do przepisu'),
         ),
     ]

@@ -13,11 +13,15 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='recipe',
             name='description',
-            field=models.TextField(blank=True, verbose_name='Sposób przygotowania (opc.)'),
+            field=models.TextField(
+                blank=True,
+                verbose_name='Sposób przygotowania (opc.)'
+            ),
         ),
         migrations.AlterField(
             model_name='recipe',
             name='name',
-            field=models.CharField(max_length=100, verbose_name='Nazwa przepisu'),
+            field=models.CharField(max_length=100,
+                                   verbose_name='Nazwa przepisu'),
         ),
     ]

@@ -28,7 +28,10 @@ class Category(models.Model):
         ('Ryby', 'Ryby'),
 
     )
-    name = models.CharField(choices=CATEGORIES, default='brak', max_length=100, verbose_name="Kategoria")
+    name = models.CharField(choices=CATEGORIES,
+                            default='brak',
+                            max_length=100,
+                            verbose_name="Kategoria")
 
     class Meta:
         verbose_name_plural = 'categories'
@@ -41,8 +44,11 @@ class Ingredient(models.Model):
     """Components of recipes"""
     name = models.CharField(max_length=100, verbose_name='Składnik')
     price = models.FloatField(null=True, blank=True)
-    path = models.ImageField(upload_to='ingredient_photo', verbose_name='Zdjęcie')
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Kategoria')
+    path = models.ImageField(upload_to='ingredient_photo',
+                             verbose_name='Zdjęcie')
+    category = models.ForeignKey(Category,
+                                 on_delete=models.CASCADE,
+                                 verbose_name='Kategoria')
 
     class Meta:
         ordering = ['name']
@@ -58,12 +64,27 @@ class Ingredient(models.Model):
 class Recipe(models.Model):
     """Dish made of chosen ingredients"""
     name = models.CharField(max_length=100, verbose_name='Nazwa przepisu')
-    path = models.ImageField(upload_to='recipe_photo', verbose_name='Zdjęcie', null=True, blank=True)
-    description = models.TextField(verbose_name='Sposób przygotowania (opc.)', blank=True)
-    url = models.URLField(max_length=100, verbose_name="Link do przepisu", blank=True)
-    time = models.IntegerField(verbose_name='Czas przygotowania ( w min.)', null=True, blank=True)
-    ingredient = models.ManyToManyField(Ingredient, through='IngredientRecipe', verbose_name='Składniki')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Użytkownik", null=True, blank=True)
+    path = models.ImageField(upload_to='recipe_photo',
+                             verbose_name='Zdjęcie',
+                             null=True,
+                             blank=True)
+    description = models.TextField(
+        verbose_name='Sposób przygotowania (opc.)',
+        blank=True
+    )
+    url = models.URLField(max_length=100,
+                          verbose_name="Link do przepisu",
+                          blank=True)
+    time = models.IntegerField(verbose_name='Czas przygotowania ( w min.)',
+                               null=True, blank=True)
+    ingredient = models.ManyToManyField(Ingredient,
+                                        through='IngredientRecipe',
+                                        verbose_name='Składniki')
+    user = models.ForeignKey(User,
+                             on_delete=models.CASCADE,
+                             verbose_name="Użytkownik",
+                             null=True,
+                             blank=True)
     date_add = models.DateField(auto_now_add=True)
     date_modify = models.DateField(auto_now=True)
 
@@ -81,7 +102,9 @@ class Meal(models.Model):
         (4, 'podwieczorek'),
         (5, 'kolacja'),
     )
-    name = models.IntegerField(choices=MEALS, default=0, verbose_name="Rodzaj posiłku")
+    name = models.IntegerField(choices=MEALS,
+                               default=0,
+                               verbose_name="Rodzaj posiłku")
     recipe = models.ManyToManyField(Recipe, verbose_name='Dania')
 
     def __str__(self):
@@ -102,10 +125,16 @@ class IngredientRecipe(models.Model):
         ('opak.', 'opak.'),
         ('l', 'l'),
     )
-    ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE, verbose_name="Składnik")
+    ingredient = models.ForeignKey(Ingredient,
+                                   on_delete=models.CASCADE,
+                                   verbose_name="Składnik")
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     amount = models.FloatField(verbose_name="Ilość")
-    measure = models.CharField(choices=MEASURES, default='dag', max_length=32, verbose_name="Miara", null=True)
+    measure = models.CharField(choices=MEASURES,
+                               default='dag',
+                               max_length=32,
+                               verbose_name="Miara",
+                               null=True)
 
     def __str__(self):
         return 'Przepis: {}, Składnik: {}'.format(self.recipe, self.ingredient)

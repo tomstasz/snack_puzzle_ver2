@@ -13,6 +13,10 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='recipe',
             name='time',
-            field=models.IntegerField(blank=True, null=True, verbose_name='Czas przygotowania ( w min.)'),
+            field=models.IntegerField(
+                blank=True,
+                null=True,
+                verbose_name='Czas przygotowania ( w min.)'
+            ),
         ),
     ]

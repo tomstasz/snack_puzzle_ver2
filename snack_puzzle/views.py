@@ -74,26 +74,41 @@ class IndexView(View):
                 counter_dict[recipe] = 0
                 for recipe_data in recipe.ingredientrecipe_set.all():
                     for user_ingredients_dict in ingredients_data:
-                        if recipe_data.ingredient.name in user_ingredients_dict.values():
-                            if recipe_data.measure == (user_ingredients_dict['measure']):
-                                if (float(user_ingredients_dict['amount'])) >= (float(recipe_data.amount)):
+                        if (recipe_data.ingredient.name
+                                in user_ingredients_dict.values()):
+                            if (recipe_data.measure
+                                    == (user_ingredients_dict['measure'])):
+                                if ((float(user_ingredients_dict['amount']))
+                                        >= (float(recipe_data.amount))):
                                     cooking_flag = True
                                     recipe_true.append(recipe.name)
                                     counter_dict[recipe] += 1
 
                                 else:
-                                    set_to_dump_list(amount_dict, amount_list, recipe.name, recipe_data.ingredient.name)
+                                    set_to_dump_list(
+                                        amount_dict,
+                                        amount_list,
+                                        recipe.name,
+                                        recipe_data.ingredient.name
+                                    )
                                     break
                             else:
-                                set_to_dump_list(measure_dict, measure_list, recipe.name, recipe_data.ingredient.name)
+                                set_to_dump_list(measure_dict,
+                                                 measure_list,
+                                                 recipe.name,
+                                                 recipe_data.ingredient.name)
                                 break
 
             if cooking_flag:
                 recipe_true = remove_duplicates_in_list(recipe_true)
                 for i in counter_dict:
-                    if i.name in recipe_true and counter_dict[i] == len(i.ingredientrecipe_set.all()):
+                    if (i.name in recipe_true
+                            and counter_dict[i]
+                            == len(i.ingredientrecipe_set.all())):
                         ready_to_cook.append(i.name)
-                        ready_to_cook = remove_duplicates_in_list(ready_to_cook)
+                        ready_to_cook = remove_duplicates_in_list(
+                            ready_to_cook
+                        )
                         to_dump['ready'] = ready_to_cook
 
             to_dump['measure'] = measure_list
@@ -114,7 +129,9 @@ class IngredientDetailView(View):
         ctx = {'ingredient': ingredient,
                'recipes': recipes}
 
-        return TemplateResponse(request, 'snack_puzzle/ingredient_detail.html', ctx)
+        return TemplateResponse(request,
+                                'snack_puzzle/ingredient_detail.html',
+                                ctx)
 
 
 class RecipeCreateView(LoginRequiredMixin, CreateView):
@@ -155,7 +172,9 @@ class LoginView(View):
 
     def get(self, request):
         """Show login form"""
-        return TemplateResponse(request, 'snack_puzzle/login.html', {'form': LoginForm()})
+        return TemplateResponse(request,
+                                'snack_puzzle/login.html',
+                                {'form': LoginForm()})
 
     def post(self, request):
         """Allow authenticated user to log in"""
@@ -189,7 +208,9 @@ class AddUserView(View):
     def get(self, request):
         """Show form with user data"""
         form = AddUserForm()
-        return TemplateResponse(request, 'snack_puzzle/user_form.html', {'form': form})
+        return TemplateResponse(request,
+                                'snack_puzzle/user_form.html',
+                                {'form': form})
 
     def post(self, request):
         """If all fields are valid, add new user to database"""
@@ -198,7 +219,9 @@ class AddUserView(View):
         if form.is_valid():
             email = form.cleaned_data['login']
             password = form.cleaned_data['password']
-            new_user = User.objects.create_user(username=email, email=email, password=password)
+            new_user = User.objects.create_user(username=email,
+                                                email=email,
+                                                password=password)
             login(request, new_user)
             return redirect('index')
         return TemplateResponse(request, 'snack_puzzle/user_form.html', ctx)
@@ -209,7 +232,9 @@ class TimeSearch(View):
     def get(self, request):
         """Allow user to specify time"""
         form = TimeSearchForm()
-        return TemplateResponse(request, 'snack_puzzle/time_search_form.html', {'form': form})
+        return TemplateResponse(request,
+                                'snack_puzzle/time_search_form.html',
+                                {'form': form})
 
     def post(self, request):
         """Show all recipes matching specified time"""
@@ -219,4 +244,6 @@ class TimeSearch(View):
             time = form.cleaned_data['time']
             recipes = Recipe.objects.filter(time__lte=int(time))
             ctx.update({'recipes': recipes})
-        return TemplateResponse(request, 'snack_puzzle/time_search_form.html', ctx)
+        return TemplateResponse(request,
+                                'snack_puzzle/time_search_form.html',
+                                ctx)
