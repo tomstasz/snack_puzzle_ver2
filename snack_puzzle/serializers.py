@@ -3,12 +3,14 @@ from snack_puzzle.models import Category, Ingredient, Recipe, Meal, IngredientRe
 
 
 class IngredientSerializer(serializers.ModelSerializer):
+    """Serializer for ingredient objects"""
     class Meta:
         model = Ingredient
         fields = ['id', 'name', 'price', 'path']
 
 
 class CategorySerializer(serializers.ModelSerializer):
+    """Serializer for category objects"""
     name = serializers.CharField(source='get_name_display')
     ingredients = IngredientSerializer(many=True, read_only=True)
 
@@ -18,6 +20,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class IngredientRecipeSerializer(serializers.ModelSerializer):
+    """Serialize amount and measure of ingredients in recipe"""
 
     ingredient = IngredientSerializer(read_only=True)
 
@@ -27,6 +30,7 @@ class IngredientRecipeSerializer(serializers.ModelSerializer):
 
 
 class RecipeSerializer(serializers.ModelSerializer):
+    """Serializer for recipe objects"""
     ingredient_recipe = IngredientRecipeSerializer(source='ingredientrecipe_set', many=True, read_only=True)
 
     class Meta:
@@ -35,6 +39,7 @@ class RecipeSerializer(serializers.ModelSerializer):
 
 
 class MealSerializer(serializers.ModelSerializer):
+    """Serializer for meal objects"""
     name = serializers.CharField(source='get_name_display')
 
     class Meta:
