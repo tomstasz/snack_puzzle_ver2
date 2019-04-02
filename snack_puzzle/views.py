@@ -1,24 +1,29 @@
+import json
+
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse_lazy
 from django.views import View
-import json
 from django.contrib.auth import login, authenticate, logout
 from django.views.generic import CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 from snack_puzzle.forms import LoginForm, AddUserForm, TimeSearchForm
 from snack_puzzle.serializers import RecipeSerializer
 from .models import Category, Ingredient, Recipe, IngredientRecipe, User
-from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 # Create your views here.
 
 
-def remove_duplicates_in_list(l):
-    return list(set(l))
+def remove_duplicates_in_list(recipe_list):
+    """Remove duplicates in recipe list"""
+    return list(set(recipe_list))
 
 
 def set_to_dump_list(dictionary, to_dump_list, recipe, ingredient):
+    """Prepare list of recipes"""
     d = {'recipe_name': recipe, 'ingredient_name': ingredient}
     dictionary.update(d)
     to_dump_list.append(dictionary)
@@ -26,8 +31,10 @@ def set_to_dump_list(dictionary, to_dump_list, recipe, ingredient):
 
 
 class IndexView(View):
+    """Main page with all the categories and user-generated recipes"""
 
     def get(self, request):
+        """Show all ingredient categories"""
         categories = Category.objects.order_by('name')
         ctx = {
             'slug': 'cat_',
@@ -36,6 +43,7 @@ class IndexView(View):
         return TemplateResponse(request, 'snack_puzzle/index.html', ctx)
 
     def post(self, request):
+        """Check if you can generate any recipe based on user ingredients"""
         ctx = {'ing_sent': "empty"}
         if 'data' in request.POST:
             data = json.loads(request.POST['data'])
@@ -97,8 +105,10 @@ class IndexView(View):
 
 
 class IngredientDetailView(View):
+    """More information about selected ingredient"""
 
     def get(self, request, pk):
+        """Show all available recipes with selected ingredient"""
         ingredient = Ingredient.objects.get(id=pk)
         recipes = ingredient.ingredientrecipe_set.all()
         ctx = {'ingredient': ingredient,
@@ -108,12 +118,14 @@ class IngredientDetailView(View):
 
 
 class RecipeCreateView(LoginRequiredMixin, CreateView):
+    """Allow authenticated users to create their own recipe"""
     login_url = 'login'
     model = Recipe
     fields = ['name', 'url', 'description', 'time']
     success_url = reverse_lazy("add_amount")
 
     def form_valid(self, form):
+        """If all fields are valid, send recipe to database"""
         self.object = form.save(commit=False)
         user = self.request.user
         self.object.user = user
@@ -123,11 +135,13 @@ class RecipeCreateView(LoginRequiredMixin, CreateView):
 
 
 class IngredientRecipeCreateView(CreateView):
+    """Specify amount and measure of each ingredient in user created recipe"""
     model = IngredientRecipe
     fields = ['ingredient', 'amount', 'measure']
     success_url = reverse_lazy("add_amount")
 
     def form_valid(self, form):
+        """If all fields are valid, send ingredients details to database"""
         self.object = form.save(commit=False)
         recipe = Recipe.objects.latest('id')
         self.object.recipe = recipe
@@ -137,11 +151,14 @@ class IngredientRecipeCreateView(CreateView):
 
 
 class LoginView(View):
+    """Authenticate users"""
 
     def get(self, request):
+        """Show login form"""
         return TemplateResponse(request, 'snack_puzzle/login.html', {'form': LoginForm()})
 
     def post(self, request):
+        """Allow authenticated user to log in"""
         form = LoginForm(request.POST)
         ctx = {'form': form, 'message': None}
         if form.is_valid():
@@ -158,19 +175,24 @@ class LoginView(View):
 
 
 class LogoutView(View):
+    """Log out current user"""
 
     def get(self, request):
+        """Log out and show main page"""
         logout(request)
         return redirect('index')
 
 
 class AddUserView(View):
+    """Create new user account"""
 
     def get(self, request):
+        """Show form with user data"""
         form = AddUserForm()
         return TemplateResponse(request, 'snack_puzzle/user_form.html', {'form': form})
 
     def post(self, request):
+        """If all fields are valid, add new user to database"""
         form = AddUserForm(request.POST)
         ctx = {'form': form}
         if form.is_valid():
@@ -183,11 +205,14 @@ class AddUserView(View):
 
 
 class TimeSearch(View):
+    """Search recipes based on time necessary to prepare them"""
     def get(self, request):
+        """Allow user to specify time"""
         form = TimeSearchForm()
         return TemplateResponse(request, 'snack_puzzle/time_search_form.html', {'form': form})
 
     def post(self, request):
+        """Show all recipes matching specified time"""
         form = TimeSearchForm(request.POST)
         ctx = {'form': form}
         if form.is_valid():
