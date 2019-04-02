@@ -11,6 +11,7 @@ User = get_user_model()
 
 
 class Category(models.Model):
+    """Categories to which all the ingredients belong"""
     CATEGORIES = (
         ('Pie', 'Pieczywo'),
         ('Nab', 'Nabiał i jaja'),
@@ -37,6 +38,7 @@ class Category(models.Model):
 
 
 class Ingredient(models.Model):
+    """Components of recipes"""
     name = models.CharField(max_length=100, verbose_name='Składnik')
     price = models.FloatField(null=True, blank=True)
     path = models.ImageField(upload_to='ingredient_photo', verbose_name='Zdjęcie')
@@ -49,10 +51,12 @@ class Ingredient(models.Model):
         return self.name
 
     def get_absolute_url(self):
+        """Return url of ingredient details"""
         return reverse('ingredient_detail', kwargs={'pk': self.id})
 
 
 class Recipe(models.Model):
+    """Dish made of chosen ingredients"""
     name = models.CharField(max_length=100, verbose_name='Nazwa przepisu')
     path = models.ImageField(upload_to='recipe_photo', verbose_name='Zdjęcie', null=True, blank=True)
     description = models.TextField(verbose_name='Sposób przygotowania (opc.)', blank=True)
@@ -68,6 +72,7 @@ class Recipe(models.Model):
 
 
 class Meal(models.Model):
+    """Recipes divided into meal types"""
     MEALS = (
         (0, 'brak'),
         (1, 'śniadanie'),
@@ -84,6 +89,7 @@ class Meal(models.Model):
 
 
 class IngredientRecipe(models.Model):
+    """Amount and measure of every ingredient necessary to create a recipe"""
     MEASURES = (
         ('g', 'g'),
         ('dag', 'dag'),
