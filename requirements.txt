@@ -30,6 +30,7 @@ ptyprocess==0.6.0
 Pygments==2.2.0
 pylint==2.1.1
 pytz==2018.5
+setuptools~=57.5.0
 shutilwhich==1.1.0
 simplegeneric==0.8.1
 six==1.11.0
