@@ -6,7 +6,7 @@ Logged in users can add their own recipes.<br>
 <img src="snack_puzzle/static/images/snack02.png" alt="Snack Puzzle" title="Not enough ingredients warning" width="200" height="150"/>
 <img src="snack_puzzle/static/images/snack03.png" alt="Snack Puzzle" title="Ingredient with example dishes" width="200" height="150"/>
 
-<a href="https://snack-puzzle.herokuapp.com/">Application deployed on heroku server</a> (Deprecated since increase of costs)
+<a href="https://snack-puzzle.herokuapp.com/">Application deployed on heroku server</a> (Deprecated since changes of costs in heroku membership plans)
 
 Implemented:
 - Notification when ingredient amount is too low
